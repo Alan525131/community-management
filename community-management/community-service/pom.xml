@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>community-service-elevator</module>
+        <module>community-service-user</module>
     </modules>
 
     <dependencies>

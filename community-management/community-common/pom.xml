@@ -15,6 +15,9 @@
         <module>community-common-core</module>
         <module>community-common-model</module>
         <module>community-common-util</module>
+        <module>community-common-swagger</module>
+        <module>community-common-redis</module>
+
     </modules>
 
 
