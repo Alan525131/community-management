@@ -12,5 +12,7 @@ import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
  */
 public interface ElevatorService extends CoreService<ElevatorPo> {
 
-    ElevatorDto buttonElevator(ElevatorPo elevatorPo);
+    ElevatorDto buttonElevator(ElevatorPo elevatorPo) throws InterruptedException;
+
+    void clickButton(Integer button, Integer floorNumber);
 }

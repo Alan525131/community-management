@@ -35,4 +35,10 @@ public class ElevatorController extends AbstractCoreController<ElevatorPo> {
        ElevatorDto elevatorDto = elevatorService.buttonElevator(elevatorPo);
        return new Result(true, StatusCode.OK,"电梯运行成功",elevatorDto);
     }
+    @GetMapping("/button")
+    public void clickButton(@RequestParam(value = "button",required = true) Integer button,
+                            @RequestParam(value = "floorNumber",required = true) Integer floorNumber){
+        elevatorService.clickButton(button,floorNumber);
+
+    }
 }
