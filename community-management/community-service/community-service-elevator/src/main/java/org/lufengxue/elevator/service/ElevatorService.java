@@ -1,7 +1,7 @@
 package org.lufengxue.elevator.service;
 
 import org.lufengxue.core.service.CoreService;
-import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
+import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 
 /**
@@ -12,7 +12,8 @@ import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
  */
 public interface ElevatorService extends CoreService<ElevatorPo> {
 
-    ElevatorDto buttonElevator(ElevatorPo elevatorPo) throws InterruptedException;
+    ElevatorDto buttonElevator(ElevatorPo elevatorPo) ;
 
-    void clickButton(Integer button, Integer floorNumber);
+
+    ElevatorDto clickButton(ElevatorPo elevatorPo);
 }

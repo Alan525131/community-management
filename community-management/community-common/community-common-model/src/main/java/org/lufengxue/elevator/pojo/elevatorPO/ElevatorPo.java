@@ -41,7 +41,7 @@ public class ElevatorPo {
     @Column(name = "target_floor")
     private Integer targetFloor;
     /**
-     * //用户输入的楼层数
+     * //用户输入的楼层数(按上下电梯的楼层)
      */
     @Column(name = "floor_number")
     private Integer floorNumber;
@@ -52,20 +52,29 @@ public class ElevatorPo {
     @Column(name = "floor_level")
     private Integer floorLevel = 1;
     /**
-     *  //客户点击的楼层按钮  01 -向上按钮  00- 向下按钮
+     *  //客户点击的楼层按钮
      */
     @Column(name = "button")
     private Integer button;
     /**
+     *  -向上按钮
+     */
+    @Column(name = "button_up")
+    private String upButton;   /**
+     *  向下按钮
+     */
+    @Column(name = "button_next")
+    private String nextButton;
+    /**
      *  //每层高度
      */
     @Column(name = "elevator_height")
-    private Integer elevatorHeight;
+    private Integer elevatorHeight = 3;
     /**
      *  //电梯移动的速度
      */
     @Column(name = "speed")
-    private Double speed;
+    private Double speed = 0.5;
     /**
      *  //电梯移动的时间
      */
@@ -90,5 +99,14 @@ public class ElevatorPo {
      *  //楼层最底层
      */
     @Column(name = "floor_bottom")
-    private Integer floorBottom;
+    private Integer floorBottom; /**
+     *  电梯门 开门
+     */
+    @Column(name = "floor_open")
+    private String floorOpen;
+    /**
+     *  电梯门 关门
+     */
+    @Column(name = "floor_off")
+    private String floorOff;
 }

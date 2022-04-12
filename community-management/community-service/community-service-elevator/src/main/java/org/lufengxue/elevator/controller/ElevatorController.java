@@ -1,7 +1,7 @@
 package org.lufengxue.elevator.controller;
 
 import org.lufengxue.core.AbstractCoreController;
-import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
+import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 import org.lufengxue.elevator.service.ElevatorService;
 import org.lufengxue.enums.StatusCode;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/elevator")
-@CrossOrigin
 public class ElevatorController extends AbstractCoreController<ElevatorPo> {
 
     private ElevatorService  elevatorService;
@@ -30,15 +29,16 @@ public class ElevatorController extends AbstractCoreController<ElevatorPo> {
         this.elevatorService = elevatorService;
     }
 
-    @GetMapping("/floor")
-    public Result buttonElevator(ElevatorPo elevatorPo){
-       ElevatorDto elevatorDto = elevatorService.buttonElevator(elevatorPo);
-       return new Result(true, StatusCode.OK,"电梯运行成功",elevatorDto);
+    @PostMapping("/floor")
+    public Result buttonElevator(@RequestBody ElevatorPo elevatorPo){
+        ElevatorDto elevatorDto = elevatorService.buttonElevator(elevatorPo);
+        return new Result(true, StatusCode.OK,"电梯运行成功",elevatorDto);
     }
-    @GetMapping("/button")
-    public void clickButton(@RequestParam(value = "button",required = true) Integer button,
-                            @RequestParam(value = "floorNumber",required = true) Integer floorNumber){
-        elevatorService.clickButton(button,floorNumber);
+    @PostMapping("/button")
+    public Result clickButton(@RequestBody ElevatorPo elevatorPo){
+        ElevatorDto elevatorDto = elevatorService.clickButton(elevatorPo);
+        return new Result(true, StatusCode.OK,"电梯按钮正常到达成功",elevatorDto);
+
 
     }
 }

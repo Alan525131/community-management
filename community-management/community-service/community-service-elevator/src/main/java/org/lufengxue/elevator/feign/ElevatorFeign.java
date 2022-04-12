@@ -1,6 +1,7 @@
 package org.lufengxue.elevator.feign;
 
 import com.github.pagehelper.PageInfo;
+import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 import org.lufengxue.response.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -26,7 +27,7 @@ public interface ElevatorFeign {
      * @return
      */
     @PostMapping(value = "/search/{page}/{size}" )
-    Result<PageInfo> findPage(@RequestBody(required = false) Elevator elevator, @PathVariable(name="page")  int page, @PathVariable(name="size")  int size);
+    Result<PageInfo> findPage(@RequestBody(required = false) ElevatorPo elevatorPo, @PathVariable(name="page")  int page, @PathVariable(name="size")  int size);
 
     /***
      * Elevator分页搜索实现
@@ -60,7 +61,7 @@ public interface ElevatorFeign {
      * @return
      */
     @PutMapping(value="/{id}")
-    Result update(@RequestBody Elevator elevator,@PathVariable(name="id") Integer id);
+    Result update(@RequestBody ElevatorPo elevator,@PathVariable(name="id") Integer id);
 
     /***
      * 新增Elevator数据
@@ -68,7 +69,7 @@ public interface ElevatorFeign {
      * @return
      */
     @PostMapping
-    Result add(@RequestBody Elevator elevator);
+    Result add(@RequestBody ElevatorPo elevator);
 
     /***
      * 根据ID查询Elevator数据
@@ -76,12 +77,12 @@ public interface ElevatorFeign {
      * @return
      */
     @GetMapping("/{id}")
-    Result<Elevator> findById(@PathVariable(name="id") Integer id);
+    Result<ElevatorDto> findById(@PathVariable(name="id") Integer id);
 
     /***
      * 查询Elevator全部数据
      * @return
      */
     @GetMapping
-    Result<List<Elevator>> findAll();
+    Result<List<ElevatorDto>> findAll();
 }

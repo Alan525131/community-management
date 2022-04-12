@@ -1,18 +1,15 @@
 package org.lufengxue.elevator.service.impl;
 
 import org.lufengxue.core.service.impl.CoreServiceImpl;
-import org.lufengxue.elevator.dao.ElevatorMapper;
-import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
+import org.lufengxue.elevator.mapper.ElevatorMapper;
+import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 import org.lufengxue.elevator.service.ElevatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Timer;
 
 /**
  * 作 者: 陆奉学
@@ -43,7 +40,7 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
      *
      */
     @Override
-    public ElevatorDto buttonElevator(ElevatorPo elevatorPo) throws InterruptedException {
+    public ElevatorDto buttonElevator(ElevatorPo elevatorPo)  {
         //电梯里 你点击 所要去的楼层按钮 表示
         //楼层高度
         int elevatorHeight = elevatorPo.getElevatorHeight();
@@ -62,8 +59,7 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
         //电梯运行状态
         Integer elevatorState = Integer.valueOf(elevatorPo.getElevatorState());
         if (elevatorState == 1){
-            clickButton(0,5);
-            heightList.add(5)
+            heightList.add(5);
             //获取电梯的楼层
             Integer floor = elevatorPo.getFloorLevel();
             //电梯口所在楼层小于当前用户所在楼层，则电梯网上
@@ -73,9 +69,13 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
                 System.out.println("电梯来上升来接客户：======");
                 for (int i = floor + 1 ; i <= upList.size() - 1 ; i++) {
                     Integer number = upList.get(i);
-                    Thread.sleep(1000);
-                    System.out.println("当前的状态：" + elevatorState);
-                    Thread.sleep(6000);
+                    try {
+                        Thread.sleep(1000);
+                        System.out.println("当前的状态：" + elevatorState);
+                        Thread.sleep(6000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     System.out.println("到达第：" + number + " 层");
                     if(i == 5){
                         System.out.println("电梯到达接客户的位置：" + number + "层");
@@ -85,33 +85,54 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
         }else {
             throw new RuntimeException("电梯不正常");
         }
-//            // 1. 向上按钮
-//            if (buttonUp.equals(1)){
-//                //获取当前电梯的所在的楼层
-//                Integer floorLevel = elevatorPo.getFloorLevel();
-//                if(button> floorLevel){
-//                    buttonUpList.add(button);
-//                    Collections.sort(buttonUpList);
-//                }
-//                //向下按钮
-//            }else if(buttonNext.equals(0)){
-//                    buttonNextList.add(elevatorState);
-//            }
-//        }else {
-//            throw new RuntimeException("电梯状态非正常运行");
-//        }
-//        elevatorPo.setFloorLevel(buttonNext);
         return null;
     }
 
     /**
-     *  获取电梯按钮
-     * @param button
-     * @param floorNumber
+     *
+//     * @param upButton 向下按钮
+//     * @param nextButton 向上
+//     * @param floorNumber 楼层
      */
     @Override
-    public void clickButton(Integer button, Integer floorNumber) {
+    public ElevatorDto clickButton(ElevatorPo elevatorPo) {
+        //集合 存储目标楼层
+        ArrayList<Integer> heightList = new ArrayList<>();
 
+        //遍历楼层 把所有楼层存储进目标楼层
+        for (int i = 1; i <= elevatorPo.getElevatorHeight(); i++) {
+            heightList.add(i);
+        }
+        //1.获取客户点击 的 上下箭头
+        if("向上".equals(elevatorPo.getUpButton())){
+            elevatorPo.setUpButton("向上");
+            System.out.println("客户点击的是向上按钮");
+
+        }else if ("向下".equals(elevatorPo.getNextButton())){
+            elevatorPo.setNextButton("向下");
+            System.out.println("客户点击的是向下按钮");
+        }
+        //2.获取电梯的楼层
+        Integer floor = elevatorPo.getFloorLevel();
+        if (floor < elevatorPo.getFloorNumber()){
+            //正序排序
+            Collections.sort(heightList);
+            System.out.println("电梯上升来接客户：======");
+        }else if (floor > elevatorPo.getFloorNumber()){
+            //倒序排序
+            heightList.sort(Collections.reverseOrder());
+            System.out.println("电梯下降来接客户：======");
+        }
+        for (int i = floor + 1 ; i <= heightList.size() - 1 ; i++){
+            //获取所到的没有一个楼层
+            System.out.println("到达第：" + i + " 层");
+            if (heightList.contains(i)){
+                elevatorPo.setFloorOpen("开门");
+                System.out.println("开门=======================");
+            }
+        }
+        return elevatorMapper.clickButton(elevatorPo);
     }
+
 
 }

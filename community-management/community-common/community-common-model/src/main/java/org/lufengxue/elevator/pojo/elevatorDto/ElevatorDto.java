@@ -1,4 +1,4 @@
-package org.lufengxue.elevator.pojo.elevatorDto;
+package org.lufengxue.elevator.pojo.elevatorPO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,17 +36,18 @@ public class ElevatorDto {
     @Column(name = "elevator_state")
     private String elevatorState;
     /**
-     * //向上按钮
+     * //目标楼层
      */
-    @Column(name = "button_up")
-    private Integer buttonUp;
+    @Column(name = "target_floor")
+    private Integer targetFloor;
     /**
-     * //向下按钮
+     * //用户输入的楼层数(按上下电梯的楼层)
      */
-    @Column(name = "button_next")
-    private Integer buttonNext;
+    @Column(name = "floor_number")
+    private Integer floorNumber;
+
     /**
-     *  //楼栋当前楼层
+     *  //电梯所在的楼层 默认在一楼
      */
     @Column(name = "floor_level")
     private Integer floorLevel = 1;
@@ -56,15 +57,24 @@ public class ElevatorDto {
     @Column(name = "button")
     private Integer button;
     /**
+     *  -向上按钮
+     */
+    @Column(name = "button_up")
+    private String upButton;   /**
+     *  向下按钮
+     */
+    @Column(name = "button_next")
+    private String nextButton;
+    /**
      *  //每层高度
      */
     @Column(name = "elevator_height")
-    private Integer elevatorHeight;
+    private Integer elevatorHeight = 3;
     /**
      *  //电梯移动的速度
      */
     @Column(name = "speed")
-    private Double speed;
+    private Double speed = 0.5;
     /**
      *  //电梯移动的时间
      */
@@ -90,135 +100,4 @@ public class ElevatorDto {
      */
     @Column(name = "floor_bottom")
     private Integer floorBottom;
-
-
-
-    //get方法
-    public Integer getId() {
-        return id;
-    }
-
-    //set方法
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    //get方法
-    public String getFloorName() {
-        return floorName;
-    }
-
-    //set方法
-    public void setFloorName(String floorName) {
-        this.floorName = floorName;
-    }
-    //get方法
-    public String getElevatorState() {
-        return elevatorState;
-    }
-
-    //set方法
-    public void setElevatorState(String elevatorState) {
-        this.elevatorState = elevatorState;
-    }
-    //get方法
-    public Integer getButtonUp() {
-        return buttonUp;
-    }
-
-    //set方法
-    public void setButtonUp(Integer buttonUp) {
-        this.buttonUp = buttonUp;
-    }
-    //get方法
-    public Integer getButtonNext() {
-        return buttonNext;
-    }
-
-    //set方法
-    public void setButtonNext(Integer buttonNext) {
-        this.buttonNext = buttonNext;
-    }
-    //get方法
-    public Integer getFloorLevel() {
-        return floorLevel;
-    }
-
-    //set方法
-    public void setFloorLevel(Integer floorLevel) {
-        this.floorLevel = floorLevel;
-    }
-    //get方法
-    public Integer getButton() {
-        return button;
-    }
-
-    //set方法
-    public void setButton(Integer button) {
-        this.button = button;
-    }
-    //get方法
-    public Integer getElevatorHeight() {
-        return elevatorHeight;
-    }
-
-    //set方法
-    public void setElevatorHeight(Integer elevatorHeight) {
-        this.elevatorHeight = elevatorHeight;
-    }
-    //get方法
-    public Double getSpeed() {
-        return speed;
-    }
-
-    //set方法
-    public void setSpeed(Double speed) {
-        this.speed = speed;
-    }
-    //get方法
-    public Date getTeme() {
-        return teme;
-    }
-
-    //set方法
-    public void setTeme(Date teme) {
-        this.teme = teme;
-    }
-    //get方法
-    public Date getCurrentTeme() {
-        return currentTeme;
-    }
-
-    //set方法
-    public void setCurrentTeme(Date currentTeme) {
-        this.currentTeme = currentTeme;
-    }
-    //get方法
-    public Date getEndTeme() {
-        return endTeme;
-    }
-
-    //set方法
-    public void setEndTeme(Date endTeme) {
-        this.endTeme = endTeme;
-    }
-    //get方法
-    public Integer getFloorTop() {
-        return floorTop;
-    }
-
-    //set方法
-    public void setFloorTop(Integer floorTop) {
-        this.floorTop = floorTop;
-    }
-    //get方法
-    public Integer getFloorBottom() {
-        return floorBottom;
-    }
-
-    //set方法
-    public void setFloorBottom(Integer floorBottom) {
-        this.floorBottom = floorBottom;
-    }
-
-
 }
