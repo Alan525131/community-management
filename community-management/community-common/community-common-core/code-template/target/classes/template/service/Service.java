@@ -1,8 +1,5 @@
 package ${package_service};
-import ${package_pojo}.${Table};
-import com.github.pagehelper.PageInfo;
-import java.util.List;
-import com.changgou.core.service.CoreService;
+        {package_pojo}.${Table};
 /**
  * 作 者: 陆奉学
  * 工 程 名:  elevator

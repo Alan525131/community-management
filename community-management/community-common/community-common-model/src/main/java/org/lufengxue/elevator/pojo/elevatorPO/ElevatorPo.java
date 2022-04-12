@@ -22,6 +22,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name="ele_elevator")
 public class ElevatorPo {
+
     @Id
     @Column(name = "id")
     private Integer id;//楼栋id
@@ -55,26 +56,27 @@ public class ElevatorPo {
      *  //客户点击的楼层按钮
      */
     @Column(name = "button")
-    private Integer button;
+    private Integer[] button;
     /**
      *  -向上按钮
      */
     @Column(name = "button_up")
-    private String upButton;   /**
+    private String upButton;
+    /**
      *  向下按钮
      */
     @Column(name = "button_next")
     private String nextButton;
     /**
-     *  //每层高度
+     *  //每层高度 3米
      */
     @Column(name = "elevator_height")
-    private Integer elevatorHeight = 3;
+    private double elevatorHeight = 3.0;
     /**
-     *  //电梯移动的速度
+     *  //电梯移动的速度 每秒 0.5 米
      */
     @Column(name = "speed")
-    private Double speed = 0.5;
+    private double speed = 0.5;
     /**
      *  //电梯移动的时间
      */
@@ -90,16 +92,14 @@ public class ElevatorPo {
      */
     @Column(name = "end_teme")
     private Date endTeme;
-    /**
-     *  //楼层顶层
-     */
-    @Column(name = "floor_top")
-    private Integer floorTop;
+
+
     /**
      *  //楼层最底层
      */
     @Column(name = "floor_bottom")
-    private Integer floorBottom; /**
+    private Integer floorBottom;
+    /**
      *  电梯门 开门
      */
     @Column(name = "floor_open")
@@ -109,4 +109,5 @@ public class ElevatorPo {
      */
     @Column(name = "floor_off")
     private String floorOff;
+
 }

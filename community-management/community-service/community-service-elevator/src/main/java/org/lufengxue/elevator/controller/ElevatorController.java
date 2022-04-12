@@ -1,7 +1,7 @@
 package org.lufengxue.elevator.controller;
 
 import org.lufengxue.core.AbstractCoreController;
-import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
+import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 import org.lufengxue.elevator.service.ElevatorService;
 import org.lufengxue.enums.StatusCode;
@@ -40,5 +40,9 @@ public class ElevatorController extends AbstractCoreController<ElevatorPo> {
         return new Result(true, StatusCode.OK,"电梯按钮正常到达成功",elevatorDto);
 
 
+    }
+    @RequestMapping("/test")
+    public String test(String name){
+        return name ;
     }
 }

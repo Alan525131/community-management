@@ -1,4 +1,4 @@
-package org.lufengxue.elevator.pojo.elevatorPO;
+package org.lufengxue.elevator.pojo.elevatorDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

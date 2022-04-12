@@ -1,7 +1,7 @@
 package org.lufengxue.elevator.feign;
 
 import com.github.pagehelper.PageInfo;
-import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
+import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 import org.lufengxue.response.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -21,7 +21,7 @@ public interface ElevatorFeign {
 
     /***
      * Elevator
-     * @param elevator
+     * @param
      * @param page
      * @param size
      * @return

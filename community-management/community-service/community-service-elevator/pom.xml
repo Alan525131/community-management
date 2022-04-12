@@ -15,10 +15,6 @@
     <dependencies>
         <dependency>
             <groupId>org.lufengxue</groupId>
-            <artifactId>community-common-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lufengxue</groupId>
             <artifactId>community-common-core-controller</artifactId>
             <version>1.0.0.0</version>
             <scope>compile</scope>

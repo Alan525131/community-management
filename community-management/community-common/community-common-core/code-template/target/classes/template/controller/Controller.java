@@ -1,14 +1,8 @@
 package ${package_controller};
-import ${package_pojo}.${Table};
-import ${package_service}.${Table}Service;
-import com.github.pagehelper.PageInfo;
-import response.Result;
-import enums.StatusCode;
-<#if swagger==true>import io.swagger.annotations.*;</#if>
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import com.changgou.core.AbstractCoreController;
+        {package_pojo}.${Table};
+        {package_service}.${Table}Service;
+<#if swagger==true>
+</#if>
 
 /**
  * 作 者: 陆奉学

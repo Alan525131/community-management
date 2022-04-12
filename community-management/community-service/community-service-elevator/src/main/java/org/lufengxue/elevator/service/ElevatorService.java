@@ -1,7 +1,7 @@
 package org.lufengxue.elevator.service;
 
 import org.lufengxue.core.service.CoreService;
-import org.lufengxue.elevator.pojo.elevatorPO.ElevatorDto;
+import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
 import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
 
 /**
