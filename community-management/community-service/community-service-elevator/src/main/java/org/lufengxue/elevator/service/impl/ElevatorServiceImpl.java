@@ -12,10 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 作 者: 陆奉学
@@ -52,7 +48,7 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
         //每层高度 3米
         double elevatorHeight = elevatorPo.getElevatorHeight();
         //获取每一层的用时 时间
-       Double temeNnumber = elevatorHeight / speed;
+        Double temeNnumber = elevatorHeight / speed;
         //2.获取电梯的楼层
         Integer floor = elevatorPo.getFloorLevel();
         //判断电梯的状态
@@ -60,20 +56,19 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
         //获取客户点击的所有楼层
         Integer[] button = elevatorPo.getButton();
 
-        //1.集合 存储目标楼层
+        //1.集合 存储电梯的所有楼层
         ArrayList<Integer> targetList = new ArrayList<>();
-        //遍历楼层 把所有楼层存储进目标楼层
+        //遍历楼层 把所有楼层存储进集合进行遍历
         for (int i = 1; i <= Constant.FLOOR_TOP; i++) {
             targetList.add(i);
         }
-
         //3.判断电梯的状态  定时打印状态
         if ("1".equals(state)) {
-            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+//            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
             // 参数：1、任务体 2、首次执行的延时时间
             //      3、任务执行间隔 4、间隔时间单位
-            service.scheduleAtFixedRate(() -> System.out.println("电梯状态" + new Date()), 0, 1, TimeUnit.SECONDS);
-            log.info("状态正常{}:", state);
+//            service.scheduleAtFixedRate(() -> System.out.println("电梯状态" + state + " 现在时间" + new Date()), 0, 1, TimeUnit.SECONDS);
+            log.info("状态正常:{}", state);
             //4.获取所有被用户点击的楼层 进行判断
             for (int c = 0; c < button.length; c++) {
                 Integer number = button[c];
@@ -81,21 +76,40 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
                     //如果 当前电梯的楼层小于 你要去的第一个楼层就是正序
                     Collections.sort(targetList);
                     log.info("电梯带着客户上升：======");
-                } else {
-                    //如果 当前电梯的楼层大于 你要去的第一个楼层就是倒序
+                    //5.遍历电梯集合 判断是否包含有客户点击的电梯号   电梯上升
+                    for (int j = floor + 1; j < targetList.size() - 1; j++) {
+                        temeNnumber++;
+                        log.info("到{}层，共用时{}秒", j, temeNnumber);
+                        if (targetList.contains(number)) {
+                            log.info("道达客户第{}楼层：开门========共用时{}秒", j, temeNnumber);
+                            elevatorPo.setFloorOpen("开门");
+                            log.info("关门");
+                        }
+                        log.info("电梯状态：{}，打印时间{}", state, temeNnumber);
+                    }
+                } else if (floor > number) {
+                    //如果 当前电梯的楼层大于 你要去的第一个楼层就是倒序 下行
                     targetList.sort(Collections.reverseOrder());
                     log.info("电梯带着客户下降：======");
-                }
-                //5.遍历电梯集合 判断是否包含有客户点击的电梯号
-                for (int j = floor + 1; j < targetList.size() - 1; j++) {
-                    temeNnumber ++;
-                    log.info("到{}层，共用时{}秒",j,temeNnumber);
-                    if (j == number) {
-                        log.info("道达客户第{}楼层：开门========共用时{}秒", j,temeNnumber);
-                        elevatorPo.setFloorOpen("开门");
-                        log.info("关门");
+                    //5.遍历电梯集合 判断是否包含有客户点击的电梯号   电梯下降
+                    for (int j = floor - 1; j >= number; j--) {
+                        temeNnumber++;
+                        log.info("到{}层，共用时{}秒", j, temeNnumber);
+                        if (targetList.contains(number)) {
+                            // todo  "floorLevel":8,  "button":[3,4,6,8,9,15,14]  但是到6楼没有停下来 开门
+                            if (j == number ){
+                                elevatorPo.setFloorOpen("开门");
+                                log.info("电梯状态：{}，道达客户第{}楼层,开门========共用时{}秒",state, j, temeNnumber);
+                                log.info("关门");
+                            }
+                            floor = j;
+                            //去掉冗余数据
+                            targetList.remove(targetList.indexOf(j));
+                            log.info("电梯状态：{}，打印时间{}", state, temeNnumber);
+                        }
                     }
                 }
+
             }
         } else if ("0".equals(state)) {
             throw new RuntimeException("电梯异常");
@@ -104,9 +118,8 @@ public class ElevatorServiceImpl extends CoreServiceImpl<ElevatorPo> implements 
     }
 
     /**
-     * //     * @param upButton 向下按钮
-     * //     * @param nextButton 向上
-     * //     * @param floorNumber 楼层
+     * 根据用户点击的上下按键
+     * 电梯来接用户
      */
     @Override
     public ElevatorDto clickButton(ElevatorPo elevatorPo) {
