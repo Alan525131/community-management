@@ -25,6 +25,7 @@
                 id=#{id}
     </update>
     <!--根据用户id删除数据-->
+
     <delete id="deleteId" parameterType="int">
         delete from ele_user where id=#{id}
     </delete>

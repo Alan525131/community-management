@@ -1,8 +1,9 @@
 package org.lufengxue.elevator.service;
 
-import org.lufengxue.core.service.CoreService;
-import org.lufengxue.elevator.pojo.elevatorDto.ElevatorDto;
-import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
+import org.lufengxue.elevator.pojo.elevatorDto.CallElevaterDto;
+import org.lufengxue.elevator.pojo.elevatorDto.GoTargetDto;
+
+import java.util.List;
 
 /**
  * 作 者: 陆奉学
@@ -10,10 +11,14 @@ import org.lufengxue.elevator.pojo.elevatorPO.ElevatorPo;
  * 包    名:  org.lufengxue
  * 描述    ： Elevator业务接口
  */
-public interface ElevatorService extends CoreService<ElevatorPo> {
-
-    ElevatorDto buttonElevator(ElevatorPo elevatorPo) ;
+public interface ElevatorService  {
 
 
-    ElevatorDto clickButton(ElevatorPo elevatorPo);
+
+
+    GoTargetDto targetElevator(List<Integer> targetLevels);
+
+    CallElevaterDto callElevator(Integer meLevel,Boolean isDown);
+
+    String findState();
 }

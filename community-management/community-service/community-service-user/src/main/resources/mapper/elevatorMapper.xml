@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lufengxue.elevator.mapper.ElevatorMapper">
+
+
+
+
+    <!--查询电梯接用户表中的电梯状态-->
+    <select id="findState" resultType="String">
+        SELECT elevator_state FROM ele_call
+    </select>
+
+    <!--查询电梯接用户表中的电梯所在楼层-->
+    <select id="findLiftFloor" resultType="java.lang.Integer">
+        SELECT LiftFloor FROM ele_call
+    </select>
+
+    <!--电梯接用户后把数据更新到数据库中 查出来-->
+    <select id="callElevator" resultType="org.lufengxue.elevator.pojo.elevatorDto.CallElevaterDto">
+        SELECT floor_name,elevator_state,liftFloor FROM ele_call
+    </select>
+
+    <!--查询电梯接用户表 用户点击的按键-->
+    <select id="findIsDown" resultType="java.lang.Boolean">
+         SELECT isDown FROM ele_call
+    </select>
+
+    <!--查询数据库电梯接用户表 获取电梯接到用户的楼层-->
+    <select id="findMeLevel" resultType="java.lang.Integer">
+         SELECT meLevel FROM ele_call
+    </select>
+
+    <!-- 根据 客户点击的目标楼层集合 电梯运送客户-->
+    <select id="targetElevator" resultType="org.lufengxue.elevator.pojo.elevatorDto.GoTargetDto">
+        select total_time from  ele_target
+    </select>
+</mapper>
