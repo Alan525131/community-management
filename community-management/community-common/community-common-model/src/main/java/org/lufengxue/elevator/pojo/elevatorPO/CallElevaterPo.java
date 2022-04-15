@@ -36,6 +36,7 @@ public class CallElevaterPo implements Serializable {
     @Column(name = "isDown")
     private Boolean isDown;
 
+
     @ApiModelProperty("楼栋名字")
     @Column(name = "floor_name")
     private String floorName;
