@@ -21,4 +21,6 @@ public interface UserFeign {
      */
     @GetMapping("/load")
     public Result<UserPo> findByName(@RequestParam(name = "username") String username);
+
+
 }

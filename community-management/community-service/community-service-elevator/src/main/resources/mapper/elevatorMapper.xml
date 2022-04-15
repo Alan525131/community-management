@@ -8,8 +8,8 @@
 
 
     <!--查询电梯接用户表中的电梯状态-->
-    <select id="findState" resultType="String">
-        SELECT elevator_state FROM ele_call
+    <select id="findButtonSheet" resultType="org.lufengxue.elevator.pojo.elevatorDto.CallElevaterDto">
+        SELECT elevator_state,liftFloor FROM ele_call where floor_name =#{floorNme}
     </select>
 
     <!--查询电梯接用户表中的电梯所在楼层-->
@@ -36,4 +36,5 @@
     <select id="targetElevator" resultType="org.lufengxue.elevator.pojo.elevatorDto.GoTargetDto">
         select total_time from  ele_target
     </select>
+
 </mapper>

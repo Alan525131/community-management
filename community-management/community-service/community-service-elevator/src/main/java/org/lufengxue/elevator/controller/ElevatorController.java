@@ -36,20 +36,23 @@ public class ElevatorController {
     @PostMapping("/button")
     @ApiOperation(value = "根据用户 按键的楼层，和按键的上下 ，电梯来接用户",notes = "电梯接用户功能")
     public Result callElevator(@RequestParam(name = "meLevel") Integer meLevel,@RequestParam(name = "isDown") Boolean isDown ){
+        System.out.println("=================");
         CallElevaterDto callElevaterDto = elevatorService.callElevator(meLevel,isDown);
         return new Result(true, StatusCode.OK,"电梯按钮正常到达成功",callElevaterDto);
 
 
     }
     @GetMapping("/ttt")
-    public String findString(@RequestParam(name = "name") String name){
+    public String findString(@RequestParam(name = "name") String name,@RequestParam(name = "password") String password){
         return "wangwu";
     }
 
 
-    @GetMapping("/State")
-    @ApiOperation(value = "查询电梯状态",notes = "查询数据库电梯状态")
-    public String findState() {
-        return elevatorService.findState();
+    @GetMapping("/find")
+    @ApiOperation(value = "根据楼层名字查询数据库电梯接用户表中数据 ",notes = "查询电梯状态,")
+    public CallElevaterDto findButtonSheet(@RequestParam(name = " floorName") String floorName) {
+        System.out.println("---------------");
+        CallElevaterDto callElevaterDto  = elevatorService.findButtonSheet(floorName);
+        return callElevaterDto;
     }
 }

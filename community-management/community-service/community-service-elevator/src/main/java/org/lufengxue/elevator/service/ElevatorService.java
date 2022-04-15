@@ -20,5 +20,5 @@ public interface ElevatorService  {
 
     CallElevaterDto callElevator(Integer meLevel,Boolean isDown);
 
-    String findState();
+    CallElevaterDto findButtonSheet(String floorName);
 }

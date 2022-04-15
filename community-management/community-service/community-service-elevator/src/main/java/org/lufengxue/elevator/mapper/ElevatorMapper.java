@@ -26,7 +26,7 @@ public interface ElevatorMapper  {
 //    ElevatorDto buttonElevator(ElevatorPo elevatorPo);
 
 
-    String findState();
+    CallElevaterDto findButtonSheet(String floorName);
 
     Integer findLiftFloor();
 

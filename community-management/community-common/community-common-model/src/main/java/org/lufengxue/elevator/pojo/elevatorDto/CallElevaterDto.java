@@ -39,7 +39,8 @@ public class CallElevaterDto implements Serializable {
      *  用户所在楼层数
      */
     @Column(name = "floor_meLevel")
-    private Integer meLevel;/**
+    private Integer meLevel;
+    /**
      *  用户所在电梯状态
      */
     @Column(name = "elevator_state")

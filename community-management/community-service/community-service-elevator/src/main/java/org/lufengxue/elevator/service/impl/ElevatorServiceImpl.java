@@ -27,6 +27,8 @@ public class ElevatorServiceImpl implements ElevatorService {
 
     @Autowired
     private ElevatorMapper elevatorMapper;
+    @Autowired
+    private ElevatorService elevatorService;
 
 
     /**
@@ -43,7 +45,8 @@ public class ElevatorServiceImpl implements ElevatorService {
         //运行每层电梯所需的时间
         double timeNumber = EleConstant.ELEVATOR_HEIGHR / EleConstant.ELEVATOR_SPEED;
         //查询数据库电梯接用户表 获取电梯状态
-        String state = elevatorMapper.findState();
+        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D-1");
+        Integer state = callElevaterDto.getElevatorState();
         //查询数据库电梯接用户表 获取电梯接到用户的楼层
         Integer meLevel = elevatorMapper.findMeLevel();
         GoTargetPo targetPo = new GoTargetPo();
@@ -146,13 +149,14 @@ public class ElevatorServiceImpl implements ElevatorService {
     @Override
     public CallElevaterDto callElevator(Integer meLevel, Boolean isDown) {
         //查询数据库 获取 电梯状态
-        String elevatorState = elevatorMapper.findState();
+        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D_1");
+        Integer state = callElevaterDto.getElevatorState();
         //查询数据库 获取 电梯所在楼层
-        Integer liftFloor = elevatorMapper.findLiftFloor();
+        Integer liftFloor = callElevaterDto.getLiftFloor();
         //获取电梯接用户表对象
         CallElevaterPo callElevaterPo = new CallElevaterPo();
         // 表示电梯可以正常使用
-        if ("00".equals(elevatorState)) {
+        if ("00".equals(state)) {
             //表示向下
             if (isDown) {
                 //把 用户按键：【下】设置回数据库 以待 电梯运送客户接口调用
@@ -179,7 +183,7 @@ public class ElevatorServiceImpl implements ElevatorService {
             }
             //层序走到这里 证明电梯已经到达用户楼层
             log.info("电梯到达用户楼层{}", meLevel);
-        } else {
+        } else if ("11".equals(state)){
             throw new RuntimeException("电梯状态异常");
         }
         return elevatorMapper.callElevator(meLevel);
@@ -191,7 +195,7 @@ public class ElevatorServiceImpl implements ElevatorService {
      * @return
      */
     @Override
-    public String findState() {
-        return elevatorMapper.findState();
+    public CallElevaterDto findButtonSheet( String floorName) {
+        return elevatorMapper.findButtonSheet(floorName);
     }
 }
