@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Integer insert(UserPo userPo) {
-        String name = userPo.getName();
+        String name = userPo.getUsername();
         if (StringUtils.isEmpty(name) || name.length() < 2 || name.length() > 12) {
 
             throw new RuntimeException("您的输入有误");
@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Integer deleteId(Integer id) {
-        return userMapper.deleteId(id);
+    public Integer deleteId(String username) {
+        return userMapper.deleteId(username);
     }
 
     /**
@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Integer updateUser(UserDto userDto) {
-        return userMapper.updateUser(userDto);
+    public Integer updateUser(UserPo userPo) {
+        return userMapper.updateUser(userPo);
     }
 
 }

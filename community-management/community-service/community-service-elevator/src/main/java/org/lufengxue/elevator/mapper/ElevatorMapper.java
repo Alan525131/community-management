@@ -28,13 +28,8 @@ public interface ElevatorMapper  {
 
     CallElevaterDto findButtonSheet(String floorName);
 
-    Integer findLiftFloor();
-
-    CallElevaterDto callElevator(Integer meLevel);
-
-    boolean findIsDown();
-
-    Integer findMeLevel();
 
     GoTargetDto targetElevator(List<Integer> targetLevels);
+
+    CallElevaterDto updateCallElevator(String floorName);
 }

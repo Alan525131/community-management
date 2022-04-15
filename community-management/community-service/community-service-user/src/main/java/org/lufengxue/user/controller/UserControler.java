@@ -2,7 +2,6 @@ package org.lufengxue.user.controller;
 
 
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 import org.lufengxue.enums.StatusCode;
 import org.lufengxue.response.Result;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 import java.util.List;
+
 
 /**
  * 作 者: 陆奉学
@@ -58,17 +58,16 @@ public class UserControler {
     @GetMapping("/load")
     @ApiOperation(value="根据用户名 查询用户信息", notes="feign调用")
     public Result<UserDto> findByName(@RequestParam(name = "username") String username){
-        // todo  不知道为什么不过来
         UserDto user = userService.findByName(username);
         return new Result(true, StatusCode.OK,"查询用户数据成功",user);
     }
     /**
      * 删除用户
      */
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete")
     @ApiOperation(value = "删除用户",notes = "根据用户id删除用户数据")
-    public Result deleteId(@PathVariable(name = "id") Integer id){
-        Integer number = userService.deleteId(id);
+    public Result deleteId(@RequestParam(name = "username") String username){
+        Integer number = userService.deleteId(username);
         if(number >= 1){
             return new Result<>(true,StatusCode.OK,"删除数据成功");
         }else {
@@ -91,8 +90,8 @@ public class UserControler {
      */
     @PostMapping("/updateUser")
     @ApiOperation(value = "更新用户列表",notes = "根据用户id更新用户数据")
-    public Result updateUser(@RequestBody UserDto userDto){
-      Integer number = userService.updateUser(userDto);
+    public Result updateUser(@RequestBody UserPo userPo){
+      Integer number = userService.updateUser(userPo);
       if(number >0){
           return new Result(true,StatusCode.OK,"更新用户数据成功");
       }else {

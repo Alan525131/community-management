@@ -1,5 +1,6 @@
 package org.lufengxue.elevator.pojo.elevatorPO;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -21,15 +22,13 @@ public class GoTargetPo implements Serializable {
 
 
 
-    /**
-     *  要去到的楼层号
-     */
+
+    @ApiModelProperty("要去到的楼层号")
     @Column(name = "targetLevels")
     private List<Integer> targetLevels;
 
-    /**
-     *  用户操作：1 关门， 2 开门，3 求救铃
-     */
+
+    @ApiModelProperty("用户操作：1 关门， 2 开门，3 求救铃")
     @Column(name = "operate")
     private Integer operate;
 }

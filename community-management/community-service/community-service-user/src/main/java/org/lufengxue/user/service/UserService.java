@@ -19,9 +19,9 @@ public interface UserService {
 
     Integer insert(UserPo userPo);
 
-    Integer deleteId(Integer id);
+    Integer deleteId(String username);
 
     List<UserDto> findAll();
 
-    Integer updateUser(UserDto userDto);
+    Integer updateUser(UserPo userPo);
 }

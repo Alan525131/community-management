@@ -1,5 +1,6 @@
 package org.lufengxue.elevator.pojo.elevatorPO;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -19,29 +20,23 @@ import java.io.Serializable;
 @Table(name="ele_call")
 public class CallElevaterPo implements Serializable {
 
-    /**
-     * 电梯按键表 ID
-     */
+
     @Id
     @Column(name = "id")
+    @ApiModelProperty("电梯按键表 ID")
     private Integer id;
 
-    /**
-     *  用户所在楼层数
-     */
+
+    @ApiModelProperty("用户所在楼层数")
     @Column(name = "floor_meLevel")
     private Integer meLevel;
 
-    /**
-     * 用户按键电梯上下 ，true：下，false：上；
-     *
-     */
+
+    @ApiModelProperty("用户按键电梯上下 ，true：下，false：上；")
     @Column(name = "isDown")
     private Boolean isDown;
 
-    /**
-     * //楼栋名字
-     */
+    @ApiModelProperty("楼栋名字")
     @Column(name = "floor_name")
     private String floorName;
 

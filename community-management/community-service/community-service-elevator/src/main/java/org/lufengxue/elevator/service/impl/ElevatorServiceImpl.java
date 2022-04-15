@@ -45,17 +45,18 @@ public class ElevatorServiceImpl implements ElevatorService {
         //运行每层电梯所需的时间
         double timeNumber = EleConstant.ELEVATOR_HEIGHR / EleConstant.ELEVATOR_SPEED;
         //查询数据库电梯接用户表 获取电梯状态
-        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D-1");
-        Integer state = callElevaterDto.getElevatorState();
+        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D_1");
+        String state = callElevaterDto.getElevatorState();
         //查询数据库电梯接用户表 获取电梯接到用户的楼层
-        Integer meLevel = elevatorMapper.findMeLevel();
+        Integer meLevel = callElevaterDto.getMeLevel();
         GoTargetPo targetPo = new GoTargetPo();
+        //电梯集合如果大于0
         if (targetLevels.size() > 0) {
             // 表示电梯可以正常使用
             if ("00".equals(state)) {
                 log.info("状态正常:{}", state);
                 //查询电梯接用户表 用户点击的按键
-                boolean isDown = elevatorMapper.findIsDown();
+                Boolean isDown = callElevaterDto.getIsDown();
                 if (isDown) {
                     //把 用户按键：【下】设置回数据库 以待 电梯运送客户接口调用
                     log.info("电梯下降来接客户：======");
@@ -95,7 +96,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                         }
                     }
                     //表示向上
-                } else {
+                } else if (!isDown) {
                     //存储用户输入的目标楼层集合
                     for (int i = 1; i <= targetLevels.size() - 1; i++) {
                         //获取用户点击的第一个楼层
@@ -138,10 +139,10 @@ public class ElevatorServiceImpl implements ElevatorService {
             }
         }
 
-        return elevatorMapper.targetElevator( targetLevels);
+        return elevatorMapper.targetElevator(targetLevels);
     }
 
-    /**
+    /** 0
      * @param meLevel 用户当前楼层
      *                用户按键电梯上下 ，true：下，false：上；
      *                根据用户 按键的楼层，和按键的上下 ，电梯来接用户
@@ -149,12 +150,16 @@ public class ElevatorServiceImpl implements ElevatorService {
     @Override
     public CallElevaterDto callElevator(Integer meLevel, Boolean isDown) {
         //查询数据库 获取 电梯状态
-        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D_1");
-        Integer state = callElevaterDto.getElevatorState();
+        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("d11");
+        String state = callElevaterDto.getElevatorState();
+        //查询数据库 获取 电梯所在楼栋名称 用来作为更新条件
+        String floorName = callElevaterDto.getFloorName();
         //查询数据库 获取 电梯所在楼层
         Integer liftFloor = callElevaterDto.getLiftFloor();
+
         //获取电梯接用户表对象
         CallElevaterPo callElevaterPo = new CallElevaterPo();
+
         // 表示电梯可以正常使用
         if ("00".equals(state)) {
             //表示向下
@@ -170,6 +175,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                 log.info("电梯上升来接客户：======");
                 //如果电梯所在楼层 小于用户所在楼层
             }
+
             if (liftFloor < meLevel) {
                 //楼栋电梯楼层 电梯往上走 到用户楼层接用户
                 for (int i = liftFloor + 1; i <= meLevel; i++) {
@@ -177,25 +183,32 @@ public class ElevatorServiceImpl implements ElevatorService {
                 }
                 //如果电梯所在楼层高于 用户所在楼层 电梯往下走
             } else if (liftFloor > meLevel) {
-                for (int j = EleConstant.FLOOR_BOTTOM - 1; j >= meLevel; j--) {
+                for (int j = liftFloor - 1; j >= meLevel; j--) {
                     log.info("到达第{}层", j);
                 }
             }
+            //如果相同表示 用户在电梯口当层
+            if (liftFloor.equals(meLevel)) {
+
+            }
             //层序走到这里 证明电梯已经到达用户楼层
             log.info("电梯到达用户楼层{}", meLevel);
-        } else if ("11".equals(state)){
+            log.info("开门");
+        } else if ("11".equals(state)) {
             throw new RuntimeException("电梯状态异常");
         }
-        return elevatorMapper.callElevator(meLevel);
+        //把数据更新到数据库，以楼栋名称为条件
+        return elevatorMapper.updateCallElevator(floorName);
     }
 
     /**
-     *  查询电梯状态
-     *  电梯状态 00.等于正常  11等于非正常
+     * 查询电梯状态
+     * 电梯状态 00.等于正常  11等于非正常
+     *
      * @return
      */
     @Override
-    public CallElevaterDto findButtonSheet( String floorName) {
+    public CallElevaterDto findButtonSheet(String floorName) {
         return elevatorMapper.findButtonSheet(floorName);
     }
 }

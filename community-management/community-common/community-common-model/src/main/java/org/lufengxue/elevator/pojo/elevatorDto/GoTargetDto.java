@@ -1,5 +1,6 @@
 package org.lufengxue.elevator.pojo.elevatorDto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -20,28 +21,23 @@ import java.util.List;
 @Table(name="ele_target")
 public class GoTargetDto implements Serializable {
 
-    /**
-     * 电梯运行表 ID
-     */
+
     @Id
+    @ApiModelProperty("电梯运行表 ID")
     @Column(name = "id")
     private Integer id;
 
-    /**
-     *  要去到的楼层号
-     */
+    @ApiModelProperty("要去到的楼层号")
     @Column(name = "targetLevels")
     private List<Integer> targetLevels;
 
-    /**
-     * 电梯状态 00.等于正常  11等于非正常
-     */
+
+    @ApiModelProperty("电梯状态 00.等于正常  11等于非正常")
     @Column(name = "elevator_state")
     private Integer elevatorState;
 
-    /**
-     * 电梯状态运行公用时长
-     */
+
+    @ApiModelProperty("电梯状态运行公用时长")
     @Column(name = "total_time")
     private Integer totalTime;
 
