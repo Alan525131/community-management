@@ -1,7 +1,9 @@
 package org.lufengxue.elevator.pojo.elevatorPO;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -17,6 +19,8 @@ import java.io.Serializable;
  * 描    述: 电梯外面 按键PO
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="ele_call")
 public class CallElevaterPo implements Serializable {
 
@@ -35,6 +39,11 @@ public class CallElevaterPo implements Serializable {
     @ApiModelProperty("用户按键电梯上下 ，true：下，false：上；")
     @Column(name = "isDown")
     private Boolean isDown;
+
+
+    @ApiModelProperty("电梯所在楼层")
+    @Column(name = "liftFloor")
+    private Integer liftFloor;
 
 
     @ApiModelProperty("楼栋名字")

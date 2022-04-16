@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
      * @param userPo
      */
     @Override
-    public Integer insert(UserPo userPo) {
+    public Integer  insert(UserPo userPo) {
         String name = userPo.getUsername();
         if (StringUtils.isEmpty(name) || name.length() < 2 || name.length() > 12) {
 

@@ -44,8 +44,9 @@ public class ElevatorServiceImpl implements ElevatorService {
     public GoTargetDto targetElevator(List<Integer> targetLevels) {
         //运行每层电梯所需的时间
         double timeNumber = EleConstant.ELEVATOR_HEIGHR / EleConstant.ELEVATOR_SPEED;
-        //查询数据库电梯接用户表 获取电梯状态
+        //查询数据库电梯接用户表(根据当前楼栋的名字)
         CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D_1");
+        //获取电梯状态
         String state = callElevaterDto.getElevatorState();
         //查询数据库电梯接用户表 获取电梯接到用户的楼层
         Integer meLevel = callElevaterDto.getMeLevel();
@@ -69,17 +70,26 @@ public class ElevatorServiceImpl implements ElevatorService {
                         //倒序排序
                         targetLevels.sort(Collections.reverseOrder());
                         //遍历 从当前楼层往下遍历
-                        for (int j = first - 1; j >= EleConstant.FLOOR_BOTTOM; j--) {
+                        for (int j = meLevel - 1; j >= EleConstant.FLOOR_BOTTOM; j--) {
                             timeNumber++;
-                            //如果遇见 目标楼层 与运行的电梯楼层相同 开门
-                            if (j == targetFloor) {
+                            //如果遇见 目标楼层 与运行的电梯楼层用户点击的第一个目标开始运行 到了就 开门
+                            if (j == first) {
                                 targetPo.setOperate(1);
                                 log.info("开门");
                                 log.info("关门：" + "重新启动");
-                                //去除已经坐过的电梯
-//                                meLevel = targetFloor;
-                                log.info("到{}层，共用时{}秒", j, timeNumber);
-                                targetLevels.remove(targetLevels.indexOf(targetFloor));
+                                if (j == targetFloor) {
+                                    targetPo.setOperate(1);
+                                    log.info("开门");
+                                    log.info("关门：" + "重新启动");
+                                    //去除已经坐过的电梯
+                                    meLevel = j;
+                                    log.info("到{}层，共用时{}秒", meLevel, timeNumber);
+                                    targetLevels.remove(targetFloor);
+                                }
+                                //去除已经坐过的电梯 todo 这里应该是删除 目标楼层的集合
+                                meLevel = j;
+                                targetLevels.remove((Integer) targetFloor);
+                                log.info("到{}层，共用时{}秒", meLevel, timeNumber);
                             }
                             log.info("电梯状态：{}，打印时间{}", state, timeNumber);
                             //说明还有楼层没有走完
@@ -89,14 +99,14 @@ public class ElevatorServiceImpl implements ElevatorService {
                                 Integer rear = targetLevels.get(targetLevels.size() - 1);
                                 Iterator<Integer> iterator = targetLevels.iterator();
                                 while (iterator.hasNext()) {
-                                    Integer floor = iterator.next();
-                                    log.info("当前层{},打印时间{}", floor, timeNumber);
+                                    meLevel = iterator.next();
+                                    log.info("当前层{},打印时间{}", meLevel, timeNumber);
                                 }
                             }
                         }
                     }
                     //表示向上
-                } else if (!isDown) {
+                } else {
                     //存储用户输入的目标楼层集合
                     for (int i = 1; i <= targetLevels.size() - 1; i++) {
                         //获取用户点击的第一个楼层
@@ -106,18 +116,27 @@ public class ElevatorServiceImpl implements ElevatorService {
                         //正序排序
                         Collections.sort(targetLevels);
                         //遍历 从当前楼层往上遍历
-                        for (int j = first + 1; j <= EleConstant.FLOOR_TOP; j++) {
+                        for (int j = meLevel + 1; j <= EleConstant.FLOOR_TOP; j++) {
                             //计算每一层所用的时间 秒为单位
                             timeNumber++;
+                            if (j == first) {
+                                targetPo.setOperate(1);
+                                log.info("开门");
+                                log.info("关门：" + "重新启动");
+                                //去除已经坐过的电梯
+                                meLevel = j;
+                                log.info("到{}层，共用时{}秒", meLevel, timeNumber);
+                                targetLevels.remove(targetFloor);
+                            }
                             //如果遇见 目标楼层 与运行的电梯楼层相同 开门
                             if (j == targetFloor) {
                                 targetPo.setOperate(1);
                                 log.info("开门");
                                 log.info("关门：" + "重新启动");
                                 //去除已经坐过的电梯
-//                                meLevel = targetFloor;
-                                log.info("到{}层，共用时{}秒", j, timeNumber);
-                                targetLevels.remove(targetLevels.indexOf(targetFloor));
+                                meLevel = j;
+                                log.info("到{}层，共用时{}秒", meLevel, timeNumber);
+                                targetLevels.remove(targetFloor);
                             }
                             log.info("电梯状态：{}，打印时间{}", state, timeNumber);
                             //说明还有楼层没有走完
@@ -127,8 +146,8 @@ public class ElevatorServiceImpl implements ElevatorService {
                                 Integer rear = targetLevels.get(targetLevels.size() - 1);
                                 Iterator<Integer> iterator = targetLevels.iterator();
                                 while (iterator.hasNext()) {
-                                    Integer floor = iterator.next();
-                                    log.info("当前层{},打印时间{}", floor, timeNumber);
+                                    meLevel = iterator.next();
+                                    log.info("当前层{},打印时间{}", meLevel, timeNumber);
                                 }
                             }
                         }
@@ -142,7 +161,9 @@ public class ElevatorServiceImpl implements ElevatorService {
         return elevatorMapper.targetElevator(targetLevels);
     }
 
-    /** 0
+    /**
+     * 0
+     *
      * @param meLevel 用户当前楼层
      *                用户按键电梯上下 ，true：下，false：上；
      *                根据用户 按键的楼层，和按键的上下 ，电梯来接用户
@@ -150,7 +171,7 @@ public class ElevatorServiceImpl implements ElevatorService {
     @Override
     public CallElevaterDto callElevator(Integer meLevel, Boolean isDown) {
         //查询数据库 获取 电梯状态
-        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("d11");
+        CallElevaterDto callElevaterDto = elevatorService.findButtonSheet("D_1");
         String state = callElevaterDto.getElevatorState();
         //查询数据库 获取 电梯所在楼栋名称 用来作为更新条件
         String floorName = callElevaterDto.getFloorName();
@@ -197,8 +218,8 @@ public class ElevatorServiceImpl implements ElevatorService {
         } else if ("11".equals(state)) {
             throw new RuntimeException("电梯状态异常");
         }
-        //把数据更新到数据库，以楼栋名称为条件
-        return elevatorMapper.updateCallElevator(floorName);
+        //把数据更新到数据库，电梯所在楼层 和用户点击的上下按键更新回数据库 以楼栋名称为条件
+        return elevatorMapper.updateCallElevator(meLevel, isDown, floorName);
     }
 
     /**

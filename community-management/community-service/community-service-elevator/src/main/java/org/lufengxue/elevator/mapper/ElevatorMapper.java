@@ -31,5 +31,6 @@ public interface ElevatorMapper  {
 
     GoTargetDto targetElevator(List<Integer> targetLevels);
 
-    CallElevaterDto updateCallElevator(String floorName);
+
+    CallElevaterDto updateCallElevator(Integer meLevel, Boolean isDown, String floorName);
 }

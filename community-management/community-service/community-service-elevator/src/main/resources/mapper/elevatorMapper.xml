@@ -5,16 +5,16 @@
 <mapper namespace="org.lufengxue.elevator.mapper.ElevatorMapper">
 
 
-
     <!--查询电梯接用户表中的电梯状态-->
     <select id="findButtonSheet" resultType="org.lufengxue.elevator.pojo.elevatorDto.CallElevaterDto">
         SELECT elevator_state,liftFloor,isDown,meLevel,floor_name FROM ele_call where floor_name =#{floorNme}
     </select>
 
 
-    <!--电梯接用户后把数据更新到数据库中 查出来-->
+    <!--电梯接用户后把数据更新到数据库中 查出来  elevator_state =#{elevatorState},liftFloor =#{liftFloor},-->
     <update id="updateCallElevator">
-          update ele_call set elevator_state =#{elevatorState},liftFloor =#{liftFloor},isDown =#{isDown},meLevel =#{meLevel} where floor_name =#{floorName}
+
+          update ele_call set isDown =#{isDown},meLevel =#{meLevel} where floor_name =#{floorName}
 
     </update>
     <!--    <select id="callElevator" resultType="org.lufengxue.elevator.pojo.elevatorDto.CallElevaterDto">-->
