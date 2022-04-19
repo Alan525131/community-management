@@ -1,8 +1,8 @@
 package org.lufengxue.elevator.controller;
 
 import io.swagger.annotations.ApiOperation;
-import org.lufengxue.elevator.pojo.elevatorDto.CallElevaterDto;
-import org.lufengxue.elevator.pojo.elevatorDto.GoTargetDto;
+import org.lufengxue.elevator.pojo.elevatorPO.Elevator;
+import org.lufengxue.elevator.pojo.elevatorPO.Floor;
 import org.lufengxue.elevator.service.ElevatorService;
 import org.lufengxue.enums.StatusCode;
 import org.lufengxue.response.Result;
@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 作 者: 陆奉学
@@ -24,33 +26,38 @@ import java.util.List;
 public class ElevatorController {
 
     @Autowired
-    private ElevatorService  elevatorService;
+    private ElevatorService elevatorService;
 
 
-    @PostMapping("/targetFloor")
-    @ApiOperation(value = "根据客户点击的目标楼层，运行电梯送往目的地",notes = "电梯运送客户功能")
-    public Result targetElevator(@RequestParam(name = "targetLevels") List<Integer> targetLevels ){
-        GoTargetDto goTargetDto = elevatorService.targetElevator(targetLevels);
-        return new Result(true, StatusCode.OK,"电梯运行成功",goTargetDto);
-    }
-    @PostMapping("/button")
-    @ApiOperation(value = "根据用户 按键的楼层，和按键的上下 ，电梯来接用户",notes = "电梯接用户功能")
-    public Result callElevator(@RequestParam(name = "meLevel") Integer meLevel,@RequestParam(name = "isDown") Boolean isDown ){
-        CallElevaterDto callElevaterDto = elevatorService.callElevator(meLevel,isDown);
-        return new Result(true, StatusCode.OK,"电梯按钮正常到达成功",callElevaterDto);
-
-
-    }
-    @GetMapping("/ttt")
-    public String findString(@RequestParam(name = "name") String name,@RequestParam(name = "password") String password){
-        System.out.println("测试成功");
-        return "wangwu";
+    @GetMapping("/findFloor")
+    @ApiOperation("根据大楼名字查询所有楼层")
+    public Result<List<Floor>> findFloor(@RequestParam(value = "floorNumber",required = true) String floorName) {
+        List<Floor> floorList = elevatorService.findFloor(floorName);
+        return new Result<>(true, StatusCode.OK, "查询大楼数据成功", floorList);
     }
 
-    @GetMapping("/find")
-    @ApiOperation(value = "根据楼层名字查询数据库电梯接用户表中数据 ",notes = "查询电梯数据,")
-    public CallElevaterDto findButtonSheet(@RequestParam(name = " floorName") String floorName) {
-        CallElevaterDto callElevaterDto  = elevatorService.findButtonSheet(floorName);
-        return callElevaterDto;
+    @GetMapping("/callElevator")
+    @ApiOperation("根据当前大楼名字,与用户当前楼层号,电梯上下按钮来进行调度电梯接用户")
+    public Result<List<Floor>> callElevator(@RequestParam(value = "floorName",required = true) String floorName,
+                                            @RequestParam(value = "buttons",required = true) String buttons,
+                                            @RequestParam(value = "floorNumber",required = true) Integer floorNumber ){
+        List<Floor> floorList = elevatorService.callElevator(floorName, buttons, floorNumber);
+
+        return new Result<>(true,StatusCode.OK,"调用电梯成功",floorList);
+    }
+
+//    @PostMapping("/runElevator")
+//    @ApiOperation("根据用户输入的目标楼层集合运行电梯接送用户到目的地")
+//    public Result<List<Elevator>> runElevator(@RequestParam(value = "status",required = true) Integer status,
+//                                              @RequestParam(value = "floorButtons",required = true) Set<Integer> floorButtons,
+//                                              @RequestParam(value = "sports",required = true) Integer sports){
+//        List<Elevator>  elevatorList = elevatorService.runElevator(status,floorButtons,sports);
+//    return new Result<>(true,StatusCode.OK,"运行电梯成功到达",elevatorList);
+
+    @PostMapping("/runElevator")
+    @ApiOperation("根据用户输入的目标楼层集合运行电梯接送用户到目的地")
+    public Result<List<Elevator>> runElevator(@RequestBody Elevator elevator){
+        List<Elevator>  elevatorList = elevatorService.runElevator(elevator);
+        return new Result<>(true,StatusCode.OK,"运行电梯成功到达",elevatorList);
     }
 }

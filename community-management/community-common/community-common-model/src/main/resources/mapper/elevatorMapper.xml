@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lufengxue.elevator.mapper.ElevatorMapper">
+
+    <!--每次电梯停下之后,把电梯位置设置回电梯表中-->
+    <update id="updateInFloor">
+        update  eleyator
+        set speed = #{speed},inFloor = #{inFloor},sports = #{sports}
+        where id = 1
+    </update>
+
+
+    <!--根据大楼名查询出对应的所有楼层-->
+    <select id="findFloor" resultType="org.lufengxue.elevator.pojo.elevatorPO.Floor">
+        SELECT
+	            b.floor_name, f.floor_number
+        FROM
+	            floor as f  LEFT JOIN building as b ON b.id = f.building_id
+        WHERE
+	            b.floor_name = #{floorName}
+    </select>
+
+    <!--根据楼层号查询楼层状态与楼层高度-->
+    <select id="queryFloor" resultType="org.lufengxue.elevator.pojo.elevatorPO.Floor">
+        SELECT
+            f.floor_height,f.floor_status,f.floor_number,b.floor_name
+        FROM
+            floor f left join building b on  b.id = f.building_id
+        WHERE
+            b.floor_name= #{floorName}
+        and
+            floor_number = #{floorNumber}
+
+    </select>
+
+    <!--查询 电梯表中的电梯速度 与电梯所在楼层  -->
+    <select id="queryElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Elevator">
+        SELECT speed,inFloor FROM eleyator where id = 1
+    </select>
+
+    <!--调用电梯来接用用户and f.buttons = #{buttons} todo buttons 数据库中的上 下 字段不会取-->
+    <select id="callElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Floor">
+       SELECT
+	            b.floor_name, f.floor_number,f.buttons, f.floor_status,f.floor_height
+        FROM
+	            floor as f  LEFT JOIN building as b ON b.id = f.building_id
+        WHERE
+	            b.floor_name = #{floorName}
+	    and
+	            f.floor_number = #{floorNumber}
+
+    </select>
+
+
+</mapper>

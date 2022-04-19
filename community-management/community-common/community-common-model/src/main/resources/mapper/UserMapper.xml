@@ -3,10 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.lufengxue.user.mapper.UserMapper">
-<!--    <insert id="insert" parameterType="org.lufengxue.user.pojo.po.UserPo" >-->
-<!--    <insert id="insert" parameterType="string">-->
-<!--        insert into ele_user where name =#{name}-->
-<!--    </insert>-->
+
+
     <!--添加用户数据-->
         <insert id="insert" parameterType="org.lufengxue.user.pojo.dto.UserDto" >
 
@@ -14,7 +12,7 @@
                     (username,password,sex,phone,created_date,updated_date)
                     value (#{username},#{password},#{sex}, #{phone},#{createdDate},#{updatedDate})
     </insert>
-    <!--更新数据-->
+    <!--更新数据  -->
     <update id="updateUser" parameterType="org.lufengxue.user.pojo.po.UserPo">
         update
                 ele_user
