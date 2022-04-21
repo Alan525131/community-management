@@ -19,7 +19,7 @@ public interface ElevatorService  {
 
     List<Floor> callElevator(String floorName, String buttons, Integer floorNumber);
 
-//    List<Elevator> runElevator(Integer status, Set<Integer> floorButtons, Integer sports);
-List<Elevator> runElevator(Elevator elevator);
+    List<Elevator> runElevator(Integer status, Set<Integer> floorButtons, Integer sports);
+//List<Elevator> runElevator(Elevator elevator);
 
 }

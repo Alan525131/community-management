@@ -46,18 +46,18 @@ public class ElevatorController {
         return new Result<>(true,StatusCode.OK,"调用电梯成功",floorList);
     }
 
-//    @PostMapping("/runElevator")
-//    @ApiOperation("根据用户输入的目标楼层集合运行电梯接送用户到目的地")
-//    public Result<List<Elevator>> runElevator(@RequestParam(value = "status",required = true) Integer status,
-//                                              @RequestParam(value = "floorButtons",required = true) Set<Integer> floorButtons,
-//                                              @RequestParam(value = "sports",required = true) Integer sports){
-//        List<Elevator>  elevatorList = elevatorService.runElevator(status,floorButtons,sports);
-//    return new Result<>(true,StatusCode.OK,"运行电梯成功到达",elevatorList);
-
     @PostMapping("/runElevator")
     @ApiOperation("根据用户输入的目标楼层集合运行电梯接送用户到目的地")
-    public Result<List<Elevator>> runElevator(@RequestBody Elevator elevator){
-        List<Elevator>  elevatorList = elevatorService.runElevator(elevator);
-        return new Result<>(true,StatusCode.OK,"运行电梯成功到达",elevatorList);
+    public Result<List<Elevator>> runElevator(@RequestParam(value = "status",required = true) Integer status,
+                                              @RequestParam(value = "floorButtons",required = true) Set<Integer> floorButtons,
+                                              @RequestParam(value = "sports",required = true) Integer sports ) {
+        List<Elevator> elevatorList = elevatorService.runElevator(status, floorButtons, sports);
+        return new Result<>(true, StatusCode.OK, "运行电梯成功到达", elevatorList);
     }
+//    @PostMapping("/runElevator")
+//    @ApiOperation("根据用户输入的目标楼层集合运行电梯接送用户到目的地")
+//    public Result<List<Elevator>> runElevator(@RequestBody Elevator elevator){
+//        List<Elevator>  elevatorList = elevatorService.runElevator(elevator);
+//        return new Result<>(true,StatusCode.OK,"运行电梯成功到达",elevatorList);
+//    }
 }

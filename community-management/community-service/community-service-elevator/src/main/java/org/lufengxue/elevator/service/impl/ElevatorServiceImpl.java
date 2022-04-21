@@ -36,6 +36,95 @@ public class ElevatorServiceImpl implements ElevatorService {
         return elevatorMapper.findFloor(floorName);
     }
 
+
+    /**
+     * 根据用户输入的目标楼层运行电梯接送用户到目的地
+     * <p>
+     * status       电梯使用状态: 1 可用，2不可用
+     * floorButtons 楼层按钮 目标楼层集合
+     * sports       电梯运行状态：1 往上，2往下，3静止
+     */
+    @Override
+    public List<Elevator> runElevator( Integer status, Set<Integer> floorButtons, Integer sports) {
+        //非空判断
+        if (sports != null && sports > 0 && status != null && status >0 && floorButtons.size() > 0) {
+
+            //因为 set 集合是无序的 在 循环没有取完的情况下  会照成迭代去除数据是无序的 所以转成 list
+            List<Integer> collect = floorButtons.stream().distinct().collect(Collectors.toList());
+            //电梯可用状态
+            if (status == 1) {
+                log.info("电梯使用正常,用户敬请使用");
+                // 1 == 电梯运行状态  往上
+                if (sports == 1) {
+                    log.info("电梯运行状态：{} 往上状态，", sports);
+                    //查询楼层 遍历楼层 正序
+                    //正序排序
+                    Collections.sort(collect);
+                    //获取楼层所在的地方  // todo 怎么把用户呼叫电梯接口之后的结果传到这里   获取用户所在楼层
+
+                    //遍历用户所在大楼的所有楼层 从用户所在位置往上开始正序遍历
+                    if (collect.size() > 0) {
+                        for (int i = floorNumber + 1; i < collect.size() - 1; i++) {
+                            if (collect.contains(i)) {
+                                floorNumber = i;
+                                log.info("开门:电梯往上运行至{}层", floorNumber);
+                                collect.remove(collect.indexOf(i));
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException("抱歉电梯出现故障");
+                                }
+                                log.info("关门继续运行");
+                            }
+                            floorNumber = i;
+                            log.info("电梯往上运行至{}层", floorNumber);
+                        }
+                        //如果大于0 证明目标集合中还有目标楼层
+                        if (collect.size() > 0) {
+                            Iterator<Integer> iterator = floorButtons.iterator();
+                            floorNumber = iterator.next();
+                        }
+                        log.info("电梯运行完所有上升楼层" + floorNumber);
+                    }
+                    //电梯运行状态  往下
+                } else if (sports == 2) {
+                    log.info("电梯运行状态： {}往下状态，", sports);
+                    //降序排序
+                    collect.sort(Collections.reverseOrder());
+                    if (collect.size() > 0) {
+                        for (int i = floorNumber - 1; i > 1; i--) {
+                            if (collect.contains(i)) {
+                                collect.remove(i);
+                                log.info("停下开门:电梯往上运行至{}层,", floorNumber);
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException("抱歉电梯出现故障");
+                                }
+                                log.info("关门继续运行");
+                            }
+                            floorNumber = i;
+                            log.info("电梯往上运行至{}层", floorNumber);
+                        }
+                        //如果大于0 证明目标集合中还有目标楼层
+                        if (collect.size() > 0) {
+                            Iterator<Integer> iterator = floorButtons.iterator();
+                            Integer floor = iterator.next();
+                        }
+                        log.info("电梯运行完所有下行楼层");
+                    }
+                    // 电梯运行状态 禁止 状态
+                } else {
+                    log.info("电梯运行状态： {}禁止状态，", sports);
+                }
+            //status == 2 电梯不可用
+            } else {
+                throw new RuntimeException("抱歉电梯正在维修当中");
+            }
+        }
+        return elevatorMapper.runElevator(floorName, floorNumber, elevator);
+    }
+
     /**
      * @param floorName   大楼名称
      * @param buttons     电梯上下按钮
@@ -48,30 +137,38 @@ public class ElevatorServiceImpl implements ElevatorService {
         if (floorNumber > 0 && floorNumber <= 20 && StringUtils.isNotBlank(floorName) && StringUtils.isNotBlank(buttons)) {
             //1.根据楼层号查询出楼层每层高度,楼层状态
             Floor floor = elevatorMapper.queryFloor(floorNumber, floorName);
-            //楼层 状态 1,最低楼  2,中间楼   3最高楼
+            //获取楼层状态 1,最低楼  2,中间楼   3最高楼
             Integer floorStatus = floor.getFloorStatus();
-            //每层楼的高度
+            //获取每层楼的高度
             Integer floorHeight = floor.getFloorHeight();
             // 2.查询 电梯表中的电梯速度 与电梯所在楼层
             Elevator elevatorList = elevatorMapper.queryElevator();
-            //电梯所在楼层位置
+            //获取电梯所在楼层位置
             Integer inFloor = elevatorList.getInFloor();
-            //电梯运行速度: 秒/米
+            //获取电梯运行速度: 秒/米
             Double speed = elevatorList.getSpeed();
 
-            //获取每层耗时多少秒 高度 除以 每秒运行速度米 todo 不知道为什么在循环的时候不可以 += time;
+            //计算出每层耗时多少秒 高度 除以 每秒运行速度米 todo 不知道为什么在循环的时候不可以 += time;
             Double timeCount = floorHeight / speed;
             //判断楼层状态 最底层
             if (floorStatus == 1) {
-                //2.根据用户传入的上下,楼层状态 判断电梯 与楼层的距离 进行遍历
+                //2.如果状态是1 值允许向上运行
                 if ("上".equals(buttons)) {
-                    log.info("您在第一楼层{},电梯往上运行至{}层:=======开门", floorNumber, inFloor);
-
+                    for (int i = inFloor + 1; i <= floorNumber; i++) {
+                        timeCount++;
+                        inFloor = i;
+                        log.info("您在第{}楼层,电梯往上运行至{}层,耗时{}秒", floorNumber, inFloor, timeCount);
+                    }
                 }
                 //最高层
             } else if (floorStatus == 3) {
+//                如果状态是3 只允许向下运行
                 if ("下".equals(buttons)) {
-                    log.info("您在最高楼层{},电梯往下运行至{}层: =======开门", floorNumber, inFloor);
+                    for (int i = inFloor - 1; i >= floorNumber; i--) {
+                        timeCount++;
+                        inFloor = i;
+                        log.info("您在第{}楼层,电梯往下运行至{}层,耗时{}秒", floorNumber, inFloor, timeCount);
+                    }
                 }
                 //中间层
             } else if (floorStatus == 2) {
@@ -98,102 +195,9 @@ public class ElevatorServiceImpl implements ElevatorService {
             elevatorList.setInFloor(inFloor);
             //每次电梯停下之后,把电梯位置设置回电梯表中
 //            elevatorMapper.updateInFloor(inFloor);  todo  更新
+              elevatorMapper.runElevator( floorName,  floorNumber);
         }
         return elevatorMapper.callElevator(floorName, floorNumber, buttons);
     }
 
-    /**
-     * 根据用户输入的目标楼层运行电梯接送用户到目的地
-     *
-     * @param status       电梯使用状态: 1 可用，2不可用
-     * @param floorButtons 楼层按钮 目标楼层集合
-     * @param sports       电梯运行状态：1 往上，2往下，3静止
-     * @return
-     */
-    @Override
-    public List<Elevator> runElevator(Elevator elevator) {
-        Integer inFloor = elevator.getInFloor();
-        Set<Integer> floorButtons = elevator.getFloorButtons();
-        Integer status = elevator.getStatus();
-        Integer sports = elevator.getSports();
-        //非空判断
-        if (status > 0 && status < 3 && sports > 0 && sports < 4 && !floorButtons.isEmpty()) {
-
-            List<Floor> floorList = elevatorMapper.findFloor("d栋");
-            //因为 set 集合是无序的 在 循环没有取完的情况下  会照成迭代去除数据是无序的 所以转成 list
-            List<Integer> collect = floorButtons.stream().distinct().collect(Collectors.toList());
-            //电梯可用状态
-            if (status == 1) {
-                log.info("电梯使用正常,用户敬请使用");
-                // 1 == 电梯运行状态  往上
-                if (sports == 1) {
-                    log.info("电梯运行状态：{} 往上状态，", sports);
-                    //查询楼层 遍历楼层 正序
-                    // todo 怎么把用户呼叫电梯接口之后的结果传到这里   获取用户所在楼层
-                    //正序排序
-                    Collections.sort(collect);
-                    //获取楼层
-                    //遍历用户所在大楼的所有楼层 往上 就正序排序
-                    if (collect.size() > 0) {
-                        for (int i = inFloor + 1; i < floorList.size() - 1; i++) {
-                            if (collect.contains(i)) {
-                                inFloor = i;
-                                log.info("开门:电梯往上运行至{}层", inFloor);
-                                collect.remove(collect.indexOf(i));
-                                try {
-                                    Thread.sleep(500);
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException("抱歉电梯出现故障");
-                                }
-                                log.info("关门继续运行");
-                            }
-                            inFloor = i;
-                            log.info("电梯往上运行至{}层", inFloor);
-                        }
-                        //如果大于0 证明目标集合中还有目标楼层
-                        if (collect.size() > 0) {
-                            Iterator<Integer> iterator = floorButtons.iterator();
-                            inFloor = iterator.next();
-                        }
-                        log.info("电梯运行完所有上升楼层" + inFloor);
-                    }
-
-                    //电梯运行状态  往下
-                } else if (sports == 2) {
-                    //降序排序
-                    collect.sort(Collections.reverseOrder());
-                    if (collect.size() > 0) {
-                        for (int i = inFloor - 1; i > 1; i--) {
-                            if (collect.contains(i)) {
-                                collect.remove(i);
-                                log.info("停下开门:电梯往上运行至{}层,", inFloor);
-                                try {
-                                    Thread.sleep(500);
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException("抱歉电梯出现故障");
-                                }
-                                log.info("关门继续运行");
-                            }
-                            inFloor = i;
-                            log.info("电梯往上运行至{}层", inFloor);
-                        }
-                        //如果大于0 证明目标集合中还有目标楼层
-                        if (collect.size() > 0) {
-                            Iterator<Integer> iterator = floorButtons.iterator();
-                            Integer floor = iterator.next();
-                        }
-                        log.info("电梯运行完所有下行楼层");
-                    }
-                    log.info("电梯运行状态： {}往下状态，", sports);
-                    // 电梯运行状态 禁止 状态
-                } else {
-                    log.info("电梯运行状态： {}禁止状态，", sports);
-                }
-                //status == 2 电梯不可用
-            } else {
-                throw new RuntimeException("抱歉电梯正在维修当中");
-            }
-        }
-        return null;
-    }
 }

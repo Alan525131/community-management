@@ -37,7 +37,7 @@
 
     <!--查询 电梯表中的电梯速度 与电梯所在楼层  -->
     <select id="queryElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Elevator">
-        SELECT speed,inFloor FROM eleyator where id = 1
+        SELECT speed,inFloor FROM eleyator where inFloor = 1
     </select>
 
     <!--调用电梯来接用用户and f.buttons = #{buttons} todo buttons 数据库中的上 下 字段不会取-->
@@ -51,6 +51,10 @@
 	    and
 	            f.floor_number = #{floorNumber}
 
+    </select>
+
+    <select id="runElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Elevator">
+         SELECT * FROM eleyator
     </select>
 
 
