@@ -3,7 +3,7 @@ package org.lufengxue.oauth.controller;
 import org.lufengxue.enums.StatusCode;
 import org.lufengxue.oauth.service.AuthService;
 import org.lufengxue.response.Result;
-import org.lufengxue.user.pojo.userBo.AuthToken;
+import org.lufengxue.pojo.user.userBo.AuthToken;
 import org.lufengxue.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

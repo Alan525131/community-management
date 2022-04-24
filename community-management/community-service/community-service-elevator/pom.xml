@@ -13,16 +13,17 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>org.lufengxue</groupId>
-            <artifactId>community-common-core-controller</artifactId>
-            <version>1.0.0.0</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.lufengxue</groupId>
             <artifactId>community-common-swagger</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
         </dependency>
     </dependencies>
 

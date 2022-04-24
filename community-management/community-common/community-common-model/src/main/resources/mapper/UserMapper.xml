@@ -6,14 +6,14 @@
 
 
     <!--添加用户数据-->
-        <insert id="insert" parameterType="org.lufengxue.user.pojo.dto.UserDto" >
+        <insert id="insert" parameterType="org.lufengxue.pojo.user.dto.UserDto" >
 
         insert into ele_user
                     (username,password,sex,phone,created_date,updated_date)
                     value (#{username},#{password},#{sex}, #{phone},#{createdDate},#{updatedDate})
     </insert>
     <!--更新数据  -->
-    <update id="updateUser" parameterType="org.lufengxue.user.pojo.po.UserPo">
+    <update id="updateUser" parameterType="org.lufengxue.pojo.user.po.UserPo">
         update
                 ele_user
         set
@@ -29,11 +29,11 @@
     </delete>
 
     <!--  根据用户名查询查询 -->
-    <select id="findByName" resultType="org.lufengxue.user.pojo.dto.UserDto">
+    <select id="findByName" resultType="org.lufengxue.pojo.user.dto.UserDto">
         select * from ele_user where username=#{username}
     </select>
     <!--查询所有数据-->
-    <select id="findAll" resultType="org.lufengxue.user.pojo.dto.UserDto">
+    <select id="findAll" resultType="org.lufengxue.pojo.user.dto.UserDto">
         select * from ele_user
     </select>
 

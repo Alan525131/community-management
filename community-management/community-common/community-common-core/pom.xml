@@ -11,10 +11,6 @@
 
     <artifactId>community-common-core</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>community-common-core-controller</module>
-        <module>community-common-core-service</module>
-    </modules>
 
     <dependencies>
         <dependency>

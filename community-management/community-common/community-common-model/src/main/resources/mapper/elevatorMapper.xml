@@ -6,56 +6,72 @@
 
     <!--每次电梯停下之后,把电梯位置设置回电梯表中-->
     <update id="updateInFloor">
-        update  eleyator
-        set speed = #{speed},inFloor = #{inFloor},sports = #{sports}
-        where id = 1
+        update
+                eleyator
+        set
+                sports = #{sports},status = #{status},buildingId = #{buildingId}
+        where
+                inFloor = #{inFloor}
     </update>
 
 
     <!--根据大楼名查询出对应的所有楼层-->
-    <select id="findFloor" resultType="org.lufengxue.elevator.pojo.elevatorPO.Floor">
+    <select id="findFloor" resultType="org.lufengxue.pojo.elevator.elevatorPO.Floor">
         SELECT
-	            b.floor_name, f.floor_number
+	            f.floor_number,f.floor_status,b.floor_name
         FROM
 	            floor as f  LEFT JOIN building as b ON b.id = f.building_id
         WHERE
 	            b.floor_name = #{floorName}
-    </select>
-
-    <!--根据楼层号查询楼层状态与楼层高度-->
-    <select id="queryFloor" resultType="org.lufengxue.elevator.pojo.elevatorPO.Floor">
-        SELECT
-            f.floor_height,f.floor_status,f.floor_number,b.floor_name
-        FROM
-            floor f left join building b on  b.id = f.building_id
-        WHERE
-            b.floor_name= #{floorName}
-        and
-            floor_number = #{floorNumber}
-
     </select>
 
     <!--查询 电梯表中的电梯速度 与电梯所在楼层  -->
-    <select id="queryElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Elevator">
-        SELECT speed,inFloor FROM eleyator where inFloor = 1
-    </select>
-
-    <!--调用电梯来接用用户and f.buttons = #{buttons} todo buttons 数据库中的上 下 字段不会取-->
-    <select id="callElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Floor">
-       SELECT
-	            b.floor_name, f.floor_number,f.buttons, f.floor_status,f.floor_height
+    <select id="queryElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
+        SELECT
+            inFloor,status,sports
         FROM
-	            floor as f  LEFT JOIN building as b ON b.id = f.building_id
+            eleyator
+        where
+            id = #{id}
+    </select>
+
+    <!--调用电梯来接用用户接口 返回一个电梯id-->
+    <select id="callElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Floor">
+       SELECT
+	        e.id
+        FROM
+	        eleyator e
+	        LEFT JOIN building b ON e.building_id = b.id
         WHERE
-	            b.floor_name = #{floorName}
-	    and
-	            f.floor_number = #{floorNumber}
+	        inFloor = #{inFloor}
 
     </select>
 
-    <select id="runElevator" resultType="org.lufengxue.elevator.pojo.elevatorPO.Elevator">
+    <!--根据用户输入的目标楼层运行电梯接送用户到目的地-->
+    <select id="runElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
          SELECT * FROM eleyator
     </select>
 
+    <!--根据当前大楼名称查询出所有对应的电梯信息-->
+    <select id="findElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
+        SELECT
+				e.id,e.sports,e.`status`,e.inFloor
+        FROM
+			    eleyator e LEFT JOIN  building b on e.building_id = b.id
+        WHERE
+			    b.floor_name = #{floorName}
+    </select>
+
+    <!--根据电梯id查询对应大楼的所有楼层号-->
+    <select id="getFloorNumber" resultType="org.lufengxue.pojo.elevator.elevatorPO.Floor">
+        SELECT
+	        f.floor_number
+        FROM
+		    floor f
+            LEFT JOIN building b ON f.building_id = b.id
+            left join eleyator e on e.building_id = b.id
+        WHERE
+		    e.id = #{id}
+    </select>
 
 </mapper>

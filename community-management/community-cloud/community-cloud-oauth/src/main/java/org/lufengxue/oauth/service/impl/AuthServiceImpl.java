@@ -1,7 +1,7 @@
 package org.lufengxue.oauth.service.impl;
 
 import org.lufengxue.oauth.service.AuthService;
-import org.lufengxue.user.pojo.userBo.AuthToken;
+import org.lufengxue.pojo.user.userBo.AuthToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;

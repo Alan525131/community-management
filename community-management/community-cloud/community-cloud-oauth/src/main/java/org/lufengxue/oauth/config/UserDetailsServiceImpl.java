@@ -2,8 +2,8 @@ package org.lufengxue.oauth.config;
 
 
 import org.lufengxue.response.Result;
-import org.lufengxue.user.pojo.po.UserPo;
-import org.lufengxue.user.userFeign.UserFeign;
+import org.lufengxue.pojo.user.po.UserPo;
+import org.lufengxue.pojo.user.userFeign.UserFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;

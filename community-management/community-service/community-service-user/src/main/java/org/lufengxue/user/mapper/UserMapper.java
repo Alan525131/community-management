@@ -2,8 +2,8 @@ package org.lufengxue.user.mapper;
 
 
 import org.apache.ibatis.annotations.Mapper;
-import org.lufengxue.user.pojo.dto.UserDto;
-import org.lufengxue.user.pojo.po.UserPo;
+import org.lufengxue.pojo.user.dto.UserDto;
+import org.lufengxue.pojo.user.po.UserPo;
 
 import java.util.List;
 

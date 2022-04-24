@@ -1,6 +1,6 @@
 package org.lufengxue.oauth.service;
 
-import org.lufengxue.user.pojo.userBo.AuthToken;
+import org.lufengxue.pojo.user.userBo.AuthToken;
 
 /*****
  * @Author: www.itheima

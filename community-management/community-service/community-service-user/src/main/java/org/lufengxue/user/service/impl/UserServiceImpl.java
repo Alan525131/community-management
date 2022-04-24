@@ -2,8 +2,8 @@ package org.lufengxue.user.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.lufengxue.user.mapper.UserMapper;
-import org.lufengxue.user.pojo.dto.UserDto;
-import org.lufengxue.user.pojo.po.UserPo;
+import org.lufengxue.pojo.user.dto.UserDto;
+import org.lufengxue.pojo.user.po.UserPo;
 import org.lufengxue.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

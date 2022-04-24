@@ -29,7 +29,8 @@ feign:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true #启用驼峰命名
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.lufengxue.elevator.log.SqlPrinter
   mapper-locations: classpath*:mapper/*Mapper.xml
 #mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/*/*/mapper/*Mapper.xml

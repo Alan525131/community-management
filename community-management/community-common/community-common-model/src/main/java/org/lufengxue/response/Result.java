@@ -6,45 +6,22 @@ import org.lufengxue.enums.StatusCode;
 
 import java.io.Serializable;
 
-/**
- * 作 者: 陆奉学
- * 工 程 名:  elevator
- * 包    名:  org.lufengxue.pojo.bo
- * 日    期:  2022-03-2022/3/29
- * 时    间:  19:03
- * 描    述:
- */
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
+
 /**
  * 接收消息封装对象
  */
 @ApiModel
 public class Result<T> implements Serializable {
 
-//    /**
-//     *  用户数据
-//     */
-//    private UserDto user;
-//
-//    /**
-//     * 返回数据
-//     */
-//    private T data;
-//    /**
-//     * 枚举  状态 数据
-//     */
-//    private GeneralExcEnum generalExcEnum;StatusCode
 
     @ApiModelProperty(required = true, value = "成功与否的标识 true 为成功 false 为失败")
-    private boolean flag;//是否成功
-    @ApiModelProperty(required = true, value = "状态码 20000 为成功 40001 为失败")
-    private Integer code;//返回码
-    @ApiModelProperty(required = true, value = "逻辑提示信息")
-    private String message;//返回消息
-    @ApiModelProperty(required = false, value = "逻辑数据")
-    private T data;//返回数据
+    private boolean flag;
+    @ApiModelProperty(required = true, value = "返回状态码 20000 为成功 40001 为失败")
+    private Integer code;
+    @ApiModelProperty(required = true, value = "返回逻辑提示信息")
+    private String message;
+    @ApiModelProperty(required = false, value = "返回逻辑数据")
+    private T data;
 
     public static <T> Result ok(T data) {
         return new Result(true, StatusCode.OK, "操作成功", data);
