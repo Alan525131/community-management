@@ -1,7 +1,7 @@
 package org.lufengxue.elevator.service;
 
-import org.lufengxue.pojo.elevator.elevatorPO.Elevator;
-import org.lufengxue.pojo.elevator.elevatorPO.Floor;
+import org.lufengxue.pojo.elevator.elevatorDto.Elevator;
+import org.lufengxue.pojo.elevator.elevatorDto.Floor;
 
 import java.util.List;
 import java.util.Set;

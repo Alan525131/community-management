@@ -1,8 +1,8 @@
 package org.lufengxue.elevator.controller;
 
 import io.swagger.annotations.ApiOperation;
-import org.lufengxue.pojo.elevator.elevatorPO.Elevator;
-import org.lufengxue.pojo.elevator.elevatorPO.Floor;
+import org.lufengxue.pojo.elevator.elevatorDto.Elevator;
+import org.lufengxue.pojo.elevator.elevatorDto.Floor;
 import org.lufengxue.elevator.service.ElevatorService;
 import org.lufengxue.enums.StatusCode;
 import org.lufengxue.response.Result;

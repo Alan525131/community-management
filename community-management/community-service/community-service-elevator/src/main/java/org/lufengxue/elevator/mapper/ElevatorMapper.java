@@ -1,8 +1,8 @@
 package org.lufengxue.elevator.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.lufengxue.pojo.elevator.elevatorPO.Elevator;
-import org.lufengxue.pojo.elevator.elevatorPO.Floor;
+import org.lufengxue.pojo.elevator.elevatorDto.Elevator;
+import org.lufengxue.pojo.elevator.elevatorDto.Floor;
 
 import java.util.List;
 import java.util.Set;
@@ -34,10 +34,10 @@ public interface ElevatorMapper {
 
     /**
      *  调用电梯来接用用户接口
-     * @param inFloor 电梯所在楼层
+     * @param id 电梯id
      * @return 返回 一个用户乘坐的电梯对象id
      */
-    Floor callElevator(Integer inFloor);
+    Floor callElevator(Integer id);
 
     /**
      * 每次电梯停下之后,把电梯位置设置回电梯表中

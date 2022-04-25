@@ -16,7 +16,7 @@
 
 
     <!--根据大楼名查询出对应的所有楼层-->
-    <select id="findFloor" resultType="org.lufengxue.pojo.elevator.elevatorPO.Floor">
+    <select id="findFloor" resultType="org.lufengxue.pojo.elevator.elevatorDto.Floor">
         SELECT
 	            f.floor_number,f.floor_status,b.floor_name
         FROM
@@ -25,8 +25,8 @@
 	            b.floor_name = #{floorName}
     </select>
 
-    <!--查询 电梯表中的电梯速度 与电梯所在楼层  -->
-    <select id="queryElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
+    <!--查询 电梯表中的电梯数据  -->
+    <select id="queryElevator" resultType="org.lufengxue.pojo.elevator.elevatorDto.Elevator">
         SELECT
             inFloor,status,sports,building_id
         FROM
@@ -36,21 +36,21 @@
     </select>
 
     <!--调用电梯来接用用户接口 返回一个电梯id-->
-    <select id="callElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Floor">
+    <select id="callElevator" resultType="org.lufengxue.pojo.elevator.elevatorDto.Floor">
        SELECT
 	        e.id
         FROM
 	        eleyator e
 	        LEFT JOIN building b ON e.building_id = b.id
         WHERE
-	        inFloor = #{inFloor}
+	        e.id = #{id}
 
     </select>
 
     <!--根据电梯id查询具体的电梯数据-->
-    <select id="runElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
+    <select id="runElevator" resultType="org.lufengxue.pojo.elevator.elevatorDto.Elevator">
          select
-		    id,sports,status,inFloor,id
+		    id,sports,status,inFloor
         from
 
 		    eleyator
@@ -58,7 +58,7 @@
     </select>
 
     <!--根据当前大楼名称查询出所有对应的电梯信息-->
-    <select id="findElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
+    <select id="findElevator" resultType="org.lufengxue.pojo.elevator.elevatorDto.Elevator">
         SELECT
 				e.id,e.sports,e.`status`,e.inFloor
         FROM
@@ -68,7 +68,7 @@
     </select>
 
     <!--根据电梯id查询对应大楼的所有楼层号-->
-    <select id="getFloorNumber" resultType="org.lufengxue.pojo.elevator.elevatorPO.Floor">
+    <select id="getFloorNumber" resultType="org.lufengxue.pojo.elevator.elevatorDto.Floor">
         SELECT
 	        f.floor_number
         FROM
