@@ -130,13 +130,12 @@ public class ElevatorServiceImpl implements ElevatorService {
         //根据用户电梯id 查询出大楼对应的楼层号 用来遍历电梯
         List<Floor> floorList = elevatorMapper.getFloorNumber(id);
         // 调用用户电梯运行方法
-        getRunElevator(floors, sports, inFloor, floorList);
-
+        inFloor = getRunElevator(floors, sports, inFloor, floorList);
 
         //每次电梯停下之后,把当前电梯对象的数据更新回电梯表中
         Integer buildingId = elevator.getBuildingId();
-        elevatorMapper.updateInFloor(inFloor, sports, status, buildingId);
-        return elevatorMapper.runElevator(floorButtons);
+        elevatorMapper.updateInFloor(inFloor, sports, status, buildingId,id);
+        return elevatorMapper.runElevator(id);
     }
 
     /**
@@ -147,14 +146,14 @@ public class ElevatorServiceImpl implements ElevatorService {
      * @param inFloor   用户所在楼层电梯
      * @param floorList 用户所在楼层 所有楼层号
      */
-    private void getRunElevator(List<Integer> floors, Integer sports, Integer inFloor, List<Floor> floorList) {
+    private Integer getRunElevator(List<Integer> floors, Integer sports, Integer inFloor, List<Floor> floorList) {
         if (CollectionUtils.isEmpty(floors)) {
             throw new RuntimeException("筛选出来的目标楼层为空");
         }
-        // 电梯运行状态 禁止 状态
-        if (sports == 3) {
-            log.info("电梯运行状态： {}禁止状态，", sports);
-        }
+//        // 电梯运行状态 禁止 状态
+//        if (sports == 3) {
+//            log.info("电梯运行状态： {}禁止状态，", sports);
+//        }
         //零时变量时间值
         Double j = 0.0;
         // 1  电梯运行状态  往上
@@ -179,6 +178,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                         }
                     }
                 }
+                break;
             }
             log.info("电梯运行完所有下行楼层");
         }
@@ -186,7 +186,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         else if (sports == 2) {
             log.info("电梯运行状态： {}往下状态，", sports);
             //降序排序
-            floors.sort(Collections.reverseOrder());
+            Collections.reverse(floors);
             floorList.sort((f1, f2) -> f2.getFloorNumber() - f1.getFloorNumber());
             //获取目标楼层集合中第一个参数值
             Integer min = floors.get(0);
@@ -197,15 +197,18 @@ public class ElevatorServiceImpl implements ElevatorService {
                         j++;
                         Double time = timeCount * j;
                         if (floors.contains(i)) {
+                            inFloor = i;
                             log.info("电梯往下运行至{}层,耗时{}秒,开门", inFloor, time);
-                            floors.remove(i);
+                            floors.remove(floors.indexOf(i));
                             log.info("关门继续运行");
                         }
                     }
+                    break;
                 }
             }
             log.info("电梯运行完所有下行楼层");
         }
+        return inFloor;
     }
 
     /**
@@ -236,6 +239,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         }
         return list;
     }
+
     /**
      * 呼叫电梯 电梯往下运行
      *
@@ -266,6 +270,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                         log.info("电梯往下运行至{}层,耗时{}秒", inFloor, time);
                     }
                     log.info("电梯到达楼层,开门");
+                    break;
                 }
             }
         }
@@ -297,15 +302,15 @@ public class ElevatorServiceImpl implements ElevatorService {
                     for (Integer i = floor.getFloorNumber(); i <= floorNumber; i++) {
                         j++;
                         Double time = timeCount * j;
-                        inFloor = i;
+                        inFloor = i ;
                         log.info("电梯往上运行至{}层,耗时{}秒", inFloor, time);
                     }
                     log.info("电梯到达楼层,开门");
+                    break;
                 }
             }
         }
     }
-
     /**
      * @param floors      楼层对象集合
      * @param floorNumber 用户所在楼层
@@ -354,23 +359,22 @@ public class ElevatorServiceImpl implements ElevatorService {
                 throw new RuntimeException("电梯不可用");
             }
             Integer sports = elevator.getSports();
-            if (sports != 3) {
-                //只要是用户按钮是往上的就排除 大于用户楼层的电梯
-                if ((sports == 1 && "上".equals(buttons)) || (sports == 2 && "上".equals(buttons))) {
-                    //排除大于用户楼层的电梯对象
-                    if (elevator.getInFloor() <= floorNumber) {
-                        distance = Math.abs(floorNumber - elevator.getInFloor());
-                    }
+            //只要是用户按钮是往上的就排除 大于用户楼层的电梯
+            if ((sports == 1 && "上".equals(buttons)) || (sports == 2 && "上".equals(buttons))) {
+                //排除大于用户楼层的电梯对象
+                if (elevator.getInFloor() <= floorNumber) {
+                    distance = Math.abs(floorNumber - elevator.getInFloor());
                 }
-                //只要是用户按钮是往下的 就排除小于用户楼层的电梯
-                if ((sports == 2 && "下".equals(buttons)) || (sports == 1 && "下".equals(buttons))) {
-                    //排除小于用户楼层的电梯对象
-                    if (elevator.getInFloor() >= floorNumber) {
-                        distance = Math.abs(floorNumber - elevator.getInFloor());
-                    }
+            }
+            //只要是用户按钮是往下的 就排除小于用户楼层的电梯
+            if ((sports == 2 && "下".equals(buttons)) || (sports == 1 && "下".equals(buttons))) {
+                //排除小于用户楼层的电梯对象
+                if (elevator.getInFloor() >= floorNumber) {
+                    distance = Math.abs(floorNumber - elevator.getInFloor());
                 }
-                //如果是禁止状态就根据用户点击的按钮 优先获取正在往相同方向运行的电梯
-            } else if (sports == 3) {
+            }
+            //如果是禁止状态就根据用户点击的按钮 优先获取正在往相同方向运行的电梯
+            if (sports == 3) {
                 if ("上".equals(buttons)) {
                     //往上运行电梯
                     if (elevator.getSports() == 1) {
@@ -379,9 +383,22 @@ public class ElevatorServiceImpl implements ElevatorService {
                             distance = Math.abs(floorNumber - elevator.getInFloor());
                         }
                     }
+                    //如果没有往上运行的电梯的情况下再选择往下运行的电梯
+                    if (elevator.getSports() == 2) {
+                        //排除大于用户楼层的电梯对象
+                        if (elevator.getInFloor() <= floorNumber) {
+                            distance = Math.abs(floorNumber - elevator.getInFloor());
+                        }
+                    }
                     //往下运行电梯
                 } else if ("下".equals(buttons)) {
                     if (elevator.getSports() == 2) {
+                        //排除小于用户楼层的电梯对象
+                        if (elevator.getInFloor() >= floorNumber) {
+                            distance = Math.abs(floorNumber - elevator.getInFloor());
+                        }
+                    }
+                    if (elevator.getSports() == 1) {
                         //排除小于用户楼层的电梯对象
                         if (elevator.getInFloor() >= floorNumber) {
                             distance = Math.abs(floorNumber - elevator.getInFloor());

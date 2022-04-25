@@ -46,15 +46,15 @@ public interface ElevatorMapper {
      * @param status   电梯是否可用
      * @param buildingId   电梯对应的大楼id
      */
-    void updateInFloor(Integer inFloor, Integer sports, Integer status, Integer buildingId);
+    void updateInFloor(Integer inFloor, Integer sports, Integer status, Integer buildingId,Integer id);
 
 
     /**
-     *  根据用户输入的目标楼层运行电梯接送用户到目的地
-     * @param floorButtons 目标楼层集合
+     *  根据电梯id查询具体的电梯数据
+     * @param id 电梯id
      * @return  返回一个用户运行的电梯对象详情
      */
-    List<Elevator> runElevator(Set<Integer> floorButtons);
+    List<Elevator> runElevator(Integer id);
 
     /**
      *  查询所有的电梯

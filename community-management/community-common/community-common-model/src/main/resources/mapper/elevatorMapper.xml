@@ -9,9 +9,9 @@
         update
                 eleyator
         set
-                sports = #{sports},status = #{status},buildingId = #{buildingId}
+                sports = #{sports},status = #{status},building_id = #{buildingId},inFloor = #{inFloor}
         where
-                inFloor = #{inFloor}
+                id = #{id}
     </update>
 
 
@@ -28,7 +28,7 @@
     <!--查询 电梯表中的电梯速度 与电梯所在楼层  -->
     <select id="queryElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
         SELECT
-            inFloor,status,sports
+            inFloor,status,sports,building_id
         FROM
             eleyator
         where
@@ -47,9 +47,14 @@
 
     </select>
 
-    <!--根据用户输入的目标楼层运行电梯接送用户到目的地-->
+    <!--根据电梯id查询具体的电梯数据-->
     <select id="runElevator" resultType="org.lufengxue.pojo.elevator.elevatorPO.Elevator">
-         SELECT * FROM eleyator
+         select
+		    id,sports,status,inFloor,id
+        from
+
+		    eleyator
+        WHERE  id = #{id}
     </select>
 
     <!--根据当前大楼名称查询出所有对应的电梯信息-->
