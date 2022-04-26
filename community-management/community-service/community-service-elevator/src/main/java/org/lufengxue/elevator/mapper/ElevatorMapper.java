@@ -41,6 +41,7 @@ public interface ElevatorMapper {
 
     /**
      * 每次电梯停下之后,把电梯位置设置回电梯表中
+     * @param id 电梯id
      * @param inFloor 电梯楼层
      * @param sports  电梯运行状态
      * @param status   电梯是否可用
@@ -69,5 +70,14 @@ public interface ElevatorMapper {
      * @return
      */
     List<Floor> getFloorNumber(Integer id);
+    /**
+     * 每次呼叫到电梯之后,把电梯状态更新回数据库中
+     * @param id 电梯id
+     * @param inFloor 电梯楼层
+     * @param sports  电梯运行状态
+     * @param status   电梯是否可用
+     * @param buildingId   电梯对应的大楼id
+     */
+    void updateElevator(Integer id, Integer inFloor, Integer sports, Integer status, Integer buildingId);
 
 }

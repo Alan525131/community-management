@@ -18,7 +18,7 @@ import java.util.Set;
  * 描    述:
  */
 @Data
-@Table(name="ele_user")
+@Table(name="eleyator")
 @ApiModel(value = "电梯")
 public class Elevator implements Serializable {
 

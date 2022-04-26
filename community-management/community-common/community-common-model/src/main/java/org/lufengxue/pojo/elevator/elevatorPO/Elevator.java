@@ -1,15 +1,10 @@
 package org.lufengxue.pojo.elevator.elevatorPO;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * 作 者: 陆奉学
@@ -20,13 +15,19 @@ import java.util.TreeSet;
  * 描    述:
  */
 @Data
-@Table(name="ele_user")
+@Table(name="eleyator")
 @ApiModel(value = "电梯")
 public class  Elevator implements Serializable {
 
     @ApiModelProperty("电梯id")
     @Column(name = "id")
     private Integer id;
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", length = 20, nullable = false)
+//    private int id;
+
 
     @ApiModelProperty("大楼id")
     @Column(name = "building_id")

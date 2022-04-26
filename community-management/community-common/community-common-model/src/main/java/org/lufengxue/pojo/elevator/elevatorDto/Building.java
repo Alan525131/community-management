@@ -6,6 +6,7 @@ import lombok.Data;
 import org.lufengxue.pojo.elevator.elevatorPO.Elevator;
 import org.lufengxue.pojo.elevator.elevatorPO.Floor;
 
+import javax.persistence.Table;
 import java.util.Set;
 
 /**
@@ -19,6 +20,7 @@ import java.util.Set;
 
 @Data
 @ApiModel("大楼")
+@Table(name="building")
 public class Building {
 
     @ApiModelProperty("大楼名")

@@ -18,8 +18,8 @@ import javax.persistence.Table;
  * 描    述:
  */
 @Data
-@Table(name="floor")
-@ApiModel(value = "floor",description = "楼层")
+@Table(name = "floor")
+@ApiModel(value = "floor", description = "楼层")
 public class Floor {
 
     @ApiModelProperty("当前楼层号")
@@ -35,6 +35,6 @@ public class Floor {
     private Integer floorStatus;
 
     @ApiModelProperty("楼层每层高度")
-    private Double floorHeight = 3.0;
+    private Double floorHeight;
 
 }
