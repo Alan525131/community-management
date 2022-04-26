@@ -16,16 +16,13 @@ import javax.persistence.Table;
  * 描    述:
  */
 @Data
-@Table(name="floor")
 @ApiModel(value = "floor",description = "楼层")
 public class Floor {
 
     @ApiModelProperty("当前楼层号")
-    @Column(name = "floor_number")
     private Integer floorNumber;
 
     @ApiModelProperty("楼层状态：1，最低楼，2中间楼，3最高楼")
-    @Column(name = "floor_status")
     private Integer floorStatus;
 
 

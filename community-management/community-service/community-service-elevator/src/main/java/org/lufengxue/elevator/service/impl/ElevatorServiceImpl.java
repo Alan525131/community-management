@@ -3,9 +3,8 @@ package org.lufengxue.elevator.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.units.qual.min;
 import org.lufengxue.elevator.mapper.ElevatorMapper;
-import org.lufengxue.pojo.elevator.constant.EleConstant;
+import org.lufengxue.constant.EleConstant;
 import org.lufengxue.pojo.elevator.elevatorDto.Elevator;
 import org.lufengxue.pojo.elevator.elevatorDto.Floor;
 import org.lufengxue.elevator.service.ElevatorService;
@@ -37,6 +36,8 @@ public class ElevatorServiceImpl implements ElevatorService {
      */
     @Override
     public List<Floor> findFloor(String floorName) {
+        int i = 1 / 0;
+
         return elevatorMapper.findFloor(floorName);
     }
 

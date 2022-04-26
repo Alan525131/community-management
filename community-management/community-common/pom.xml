@@ -17,6 +17,8 @@
         <module>community-common-util</module>
         <module>community-common-swagger</module>
         <module>community-common-redis</module>
+        <module>community-common-logger</module>
+        <module>community-common-exception</module>
 
     </modules>
 

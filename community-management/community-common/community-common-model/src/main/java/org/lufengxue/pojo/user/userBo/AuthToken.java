@@ -18,10 +18,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthToken implements Serializable {
-    //令牌信息
+
+    /**
+     * 令牌信息
+     */
     private   String accessToken;
-    //刷新token(refresh_token)
+
+    /**
+     *  刷新token(refresh_token)
+     */
     private  String refreshToken;
-    //jwt短令牌
+
+    /**
+     *  jwt短令牌
+     */
     private  String jti;
 }

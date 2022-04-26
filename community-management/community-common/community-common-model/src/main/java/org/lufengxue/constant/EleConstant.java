@@ -1,4 +1,4 @@
-package org.lufengxue.pojo.elevator.constant;
+package org.lufengxue.constant;
 
 import lombok.Data;
 

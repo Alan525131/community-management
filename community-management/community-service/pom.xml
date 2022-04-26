@@ -27,6 +27,11 @@
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-oauth2</artifactId>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>org.lufengxue</groupId>
+            <artifactId>community-common-logger</artifactId>
+            <version>1.0.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

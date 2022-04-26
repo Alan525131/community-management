@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>community-cloud-gateway</artifactId>
-
+    <description>网关微服务</description>
     <dependencies>
         <!--豪猪熔断-->
         <dependency>
@@ -28,12 +28,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
-
+        <!--网关起步依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
-
+        <!--eureka客户端-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -42,5 +42,10 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
         </dependency>
+<!--         &lt;!&ndash;swagger依赖&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.lufengxue</groupId>-->
+<!--            <artifactId>community-common-swagger</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

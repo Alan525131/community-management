@@ -20,7 +20,6 @@ import java.util.Set;
 
 @Data
 @ApiModel("大楼")
-@Table(name="building")
 public class Building {
 
     @ApiModelProperty("大楼名")

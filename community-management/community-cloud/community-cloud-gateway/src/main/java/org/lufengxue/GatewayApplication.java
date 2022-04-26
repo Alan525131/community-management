@@ -37,7 +37,7 @@ public class GatewayApplication {
             @Override
             public Mono<String> resolve(ServerWebExchange exchange) {
                 //以ip地址的方式
-                String hostAddress = exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();//ip地址
+                String hostAddress = exchange.getRequest().getRemoteAddress().getAddress().getHostAddress();
                 return Mono.just(hostAddress);
             }
         };

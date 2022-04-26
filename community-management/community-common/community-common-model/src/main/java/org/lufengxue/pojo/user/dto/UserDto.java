@@ -19,36 +19,33 @@ import java.util.Date;
  * 描    述:
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name="ele_user")
 public class UserDto implements Serializable {
 
     @ApiModelProperty("用户id")
     private Long id;
 
     @ApiModelProperty("用户名")
-    @Column(name = "name")
     private String name;
 
     @ApiModelProperty("用户密码")
-    @Column(name = "password")
     private String password;
 
-    @ApiModelProperty("用户性别")
-    @Column(name = "sex")
+    @ApiModelProperty("性别，1男，0女")
     private String sex;
 
     @ApiModelProperty("用户电话号码")
-    @Column(name = "phone")
     private String phone;
 
+    @ApiModelProperty("使用状态（1正常 0非正常）")
+    private String status;
+
     @ApiModelProperty("创建时间")
-    @Column(name = "created_date")
     private Date createdDate;
 
     @ApiModelProperty("更新时间")
-    @Column(name = "updated_date")
     private Date updatedDate;
+
+    @ApiModelProperty("用户昵称名")
+    private String nickName;
 
 }

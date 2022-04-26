@@ -3,27 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>community-service</artifactId>
+        <artifactId>community-common</artifactId>
         <groupId>org.lufengxue</groupId>
         <version>1.0.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>community-service-elevator</artifactId>
-
+    <artifactId>community-common-exception</artifactId>
 
     <dependencies>
+        <!--web 依赖-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
 
+        <!--model 依赖-->
         <dependency>
             <groupId>org.lufengxue</groupId>
-            <artifactId>community-common-swagger</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
+            <artifactId>community-common-model</artifactId>
         </dependency>
     </dependencies>
-
 </project>

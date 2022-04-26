@@ -33,16 +33,22 @@ public class UserPo {
     @ApiModelProperty("用户密码")
     @Column(name = "password")
     private String password;
+
     @ApiModelProperty("用户昵称名")
     @Column(name = "nick_name")
     private String nickName;
-    @ApiModelProperty("用户性别")
+
+    @ApiModelProperty("性别，1男，0女")
     @Column(name = "sex")
     private String sex;
 
     @ApiModelProperty("用户电话号码")
     @Column(name = "phone")
     private String phone;
+
+    @ApiModelProperty("使用状态（1正常 0非正常）")
+    @Column(name = "status")
+    private String status;
 
     @ApiModelProperty("创建时间")
     @Column(name = "created_date")
