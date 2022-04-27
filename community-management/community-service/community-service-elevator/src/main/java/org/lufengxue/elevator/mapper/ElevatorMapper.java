@@ -37,7 +37,7 @@ public interface ElevatorMapper {
      * @param id 电梯id
      * @return 返回 一个用户乘坐的电梯对象id
      */
-    Floor callElevator(Integer id);
+    Elevator callElevator(Integer id);
 
     /**
      * 每次电梯停下之后,把电梯位置设置回电梯表中

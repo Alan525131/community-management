@@ -16,7 +16,7 @@ public interface ElevatorService {
 
     List<Floor> findFloor(String floorName);
 
-    Floor callElevator(String floorName, String buttons, Integer floorNumber);
+    Elevator callElevator(String floorName, String buttons, Integer floorNumber);
 
     List<Elevator> runElevator(Set<Integer> floorButtons,Integer id);
 

@@ -46,7 +46,7 @@
     </select>
 
     <!--调用电梯来接用用户接口 返回一个电梯id-->
-    <select id="callElevator" resultType="org.lufengxue.pojo.elevator.elevatorDto.Floor">
+    <select id="callElevator" resultType="org.lufengxue.pojo.elevator.elevatorDto.Elevator">
        SELECT
 	         e.id,b.floor_name,e.inFloor,e.`status`,e.sports
         FROM

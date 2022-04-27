@@ -37,12 +37,12 @@ public class ElevatorController {
 
     @GetMapping("/callElevator")
     @ApiOperation("根据当前大楼名字,与用户当前楼层号,电梯上下按钮来进行调度电梯接用户")
-    public Result<Floor> callElevator(@RequestParam(value = "floorName", required = true) String floorName,
+    public Result<Elevator> callElevator(@RequestParam(value = "floorName", required = true) String floorName,
                                             @RequestParam(value = "buttons", required = true) String buttons,
                                             @RequestParam(value = "floorNumber", required = true) Integer floorNumber) {
-        Floor floor = elevatorService.callElevator(floorName, buttons, floorNumber);
+        Elevator elevator = elevatorService.callElevator(floorName, buttons, floorNumber);
 
-        return new Result<>(true, StatusCode.OK, "电梯已经到达用户楼层",floor);
+        return new Result<>(true, StatusCode.OK, "电梯已经到达用户楼层",elevator);
     }
 
     @PostMapping("/runElevator")

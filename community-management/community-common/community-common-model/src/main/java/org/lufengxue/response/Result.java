@@ -1,10 +1,8 @@
 package org.lufengxue.response;
 
-import com.thoughtworks.xstream.core.BaseException;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import org.lufengxue.enums.GeneralExcEnum;
 import org.lufengxue.enums.StatusCode;
 
 import java.io.Serializable;

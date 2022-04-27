@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.lufengxue.exception.global.BusinessCodeException,\
+  org.lufengxue.exception.global.BusinessException,\
+  org.lufengxue.exception.global.CustomException,\
+  org.lufengxue.exception.global.GlobalExceptionHandler
