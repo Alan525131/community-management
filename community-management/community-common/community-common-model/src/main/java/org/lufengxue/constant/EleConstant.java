@@ -12,15 +12,6 @@ import lombok.Data;
  */
 @Data
 public class EleConstant {
-    /**
-     * 电梯最高层 18
-     */
-//    public static  Integer FLOOR_TOP = 18 ;
-
-    /**
-     *  //电梯所在的楼层 默认在一楼
-     */
-//    public static  Integer  FLOOR_BOTTOM = 1;
 
     /**
      *  电梯每层高度 3米

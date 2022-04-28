@@ -29,19 +29,30 @@ spring:
                 redis-rate-limiter.burstCapacity: 3   # 允许一秒钟最大请求数    令牌桶容量
                 redis-rate-limiter.replenishRate: 2  #希望允许每秒执行多少请求  填充速率
 
-#  main:
-#    allow-bean-definition-overriding: true
+  main:
+    allow-bean-definition-overriding: true
 
   redis:
     host: 127.0.0.1
     port: 6379
+#eureka client 配置
 eureka:
   client:
+    # 获取注册表时间隔秒, 默认30
+    registry-fetch-interval-seconds: 5
+    # 实例信息复制间隔秒, 默认30
+    instance-info-replication-interval-seconds: 10
+    # 服务地址
     service-url:
       defaultZone: http://127.0.0.1:7001/eureka
-
   instance:
     prefer-ip-address: true
+    # 实例ID
+    instance-id: ${spring.application.name}@${spring.cloud.client.ip-address}:${server.port}
+    # 租约续订间隔, 心跳检测, 默认30秒
+    lease-renewal-interval-in-seconds: 10
+    # 租约到期持续时间, 停止心跳10秒后剔除服务, 默认90秒
+    lease-expiration-duration-in-seconds: 10
 management:
   endpoint:
     gateway:

@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableEurekaClient
 @SpringBootApplication
 @MapperScan(basePackages = "org.lufengxue.user.mapper")
-@EnableFeignClients(basePackages = "org.lufengxue.user.userFeign")
+//@EnableFeignClients(basePackages = "org.lufengxue.pojo.user.userFeign.UserFeign")
 public class UserApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class,args);

@@ -2,9 +2,15 @@ package org.lufengxue.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.lufengxue.enums.StatusCode;
+import lombok.NoArgsConstructor;
+import org.lufengxue.enums.ResponseEnum;
+import org.lufengxue.exception.BaseException;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 
 
@@ -13,77 +19,77 @@ import java.io.Serializable;
  */
 @ApiModel
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Result<T> implements Serializable {
 
 
+    /**
+     * 默认成功编码: 00000, 成功消息: SUCCEED, 成功http状态: 200
+     */
+    protected static final String DEFAULT_SUCCEED_CODE = "00000";
+    protected static final String DEFAULT_SUCCEED_MSG = "SUCCEED";
 
-    @ApiModelProperty(required = true, value = "成功与否的标识 true 为成功 false 为失败")
-    protected boolean flag;
+
     @ApiModelProperty(required = true, value = "返回状态码 20000 为成功 40001 为失败")
-    private static Integer code;
+    private  String code;
+
     @ApiModelProperty(required = true, value = "返回逻辑提示信息")
     protected String message;
+
     @ApiModelProperty(required = false, value = "返回逻辑数据")
     protected T data;
 
 
 
-    public static <T> Result ok(T data) {
-        return new Result<T>(true, StatusCode.OK, "操作成功", data);
+    /**
+     *
+     * @param <T>
+     * @return 返回成功消息
+     */
+    public static <T> Result<T> success() {
+        return new Result<T>(DEFAULT_SUCCEED_CODE,DEFAULT_SUCCEED_MSG);
+
     }
 
-    public static <T> Result ok() {
-        return new Result(true, StatusCode.OK, "操作成功");
+    public static <T>  Result<T> success(T data) {
+        return new Result<T>(DEFAULT_SUCCEED_CODE,DEFAULT_SUCCEED_MSG,data);
     }
 
-    public Result(boolean flag, Integer code, String message, T data) {
-        this.flag = flag;
-        Result.code = code;
-        this.message = message;
-        this.data = data;
+    /**
+     *
+     * @param seEnum
+     * @param <T>
+     * @return 返回失败消息
+     */
+    public static <T> Result<T> fail(ResponseEnum seEnum) {
+        setHttpStatus(seEnum.status);
+        return new Result<T>(seEnum.getCode(), seEnum.getMessage());
     }
 
-    public Result(boolean flag, Integer code, String message) {
-        this.flag = flag;
-        Result.code = code;
-        this.message = message;
+    public static <T> Result<T> fail(BaseException e) {
+        setHttpStatus(e.getStatus());
+        return new Result<>(e.getCode(), e.getMsg());
     }
 
-    public Result() {
-        this.flag = true;
-        code = StatusCode.OK;
-        this.message = "操作成功!";
-    }
-
-    public boolean isFlag() {
-        return flag;
-    }
-
-    public void setFlag(boolean flag) {
-        this.flag = flag;
-    }
-
-    public static Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        Result.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
+    /**
+     *  构造函数
+     * @param code 状态码
+     * @param message   错误消息
+     */
+    public Result(String code, String message) {
+        this.code = code;
         this.message = message;
     }
 
-    public T getData() {
-        return data;
+    /**
+     * 设置响应状态码
+     */
+    protected static void setHttpStatus(int status) {
+        HttpServletResponse response = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getResponse();
+        if (response != null) {
+            response.setStatus(status);
+        }
     }
 
-    public void setData(T data) {
-        this.data = data;
-    }
 }

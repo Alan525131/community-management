@@ -32,7 +32,8 @@ public class ElevatorController {
     @ApiOperation("根据大楼名字查询所有楼层")
     public Result<List<Floor>> findFloor(@RequestParam(value = "floorNumber", required = true) String floorName) {
         List<Floor> floorList = elevatorService.findFloor(floorName);
-        return new Result<>(true, StatusCode.OK, "查询大楼数据成功", floorList);
+//        return new Result<>(true, StatusCode.OK, "查询大楼数据成功", floorList);
+        return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",floorList);
     }
 
     @GetMapping("/callElevator")
@@ -42,7 +43,7 @@ public class ElevatorController {
                                             @RequestParam(value = "floorNumber", required = true) Integer floorNumber) {
         Elevator elevator = elevatorService.callElevator(floorName, buttons, floorNumber);
 
-        return new Result<>(true, StatusCode.OK, "电梯已经到达用户楼层",elevator);
+        return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",elevator);
     }
 
     @PostMapping("/runElevator")
@@ -50,6 +51,6 @@ public class ElevatorController {
     public Result<List<Elevator>> runElevator(@RequestParam(value = "floorButtons", required = true) Set<Integer> floorButtons,
                                               @RequestParam(value = "id") Integer id) {
         List<Elevator> elevatorList = elevatorService.runElevator(floorButtons,id);
-        return new Result<>(true, StatusCode.OK, "运行电梯成功到达", elevatorList);
+        return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG", elevatorList);
     }
 }

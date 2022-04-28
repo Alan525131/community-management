@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         Date createDate = new Date();
         userPo.setCreatedDate(createDate);
         userPo.setUpdatedDate(createDate);
+
         return userMapper.insert(userPo);
     }
 

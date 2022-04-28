@@ -1,6 +1,5 @@
 package org.lufengxue.oauth.controller;
 
-import org.lufengxue.enums.StatusCode;
 import org.lufengxue.oauth.service.AuthService;
 import org.lufengxue.response.Result;
 import org.lufengxue.pojo.user.userBo.AuthToken;
@@ -59,7 +58,7 @@ public class AuthController {
         //将令牌存储到cookie
         saveCookie(access_token);
 
-        return new Result(true, StatusCode.OK,"登录成功！");
+        return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","登录成功！");
     }
 
     /***

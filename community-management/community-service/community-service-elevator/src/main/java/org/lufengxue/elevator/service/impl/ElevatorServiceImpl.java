@@ -140,7 +140,7 @@ public class ElevatorServiceImpl implements ElevatorService {
         return elevatorMapper.runElevator(id);
     }
     /**
-     * 用户电梯往上运行
+     * 用户电梯运行
      * @param floors    符合条件的目标楼层集合
      * @param sports    当前电梯的运行状态 1 上, 2 下
      * @param inFloor   电梯所在楼层
@@ -158,9 +158,9 @@ public class ElevatorServiceImpl implements ElevatorService {
             log.info("电梯运行状态：{} 往上状态，", sports);
             //目标楼层正序排序
             Collections.sort(floors);
+            Integer max = Collections.max(floors);
             floorList.sort((f1, f2) -> f1.getFloorNumber() - f2.getFloorNumber());
             //获取目标楼层集合中最后一个参数值
-            Integer max = floors.get(floors.size() - 1);
             for (Floor floor : floorList) {
                 if (floor.getFloorNumber().equals(inFloor)) {
                     //遍历用户所在大楼的所有楼层 从用户所在位置往上开始正序遍历
@@ -182,11 +182,8 @@ public class ElevatorServiceImpl implements ElevatorService {
         // 电梯运行状态  往下
         else if (sports == 2) {
             //降序排序
-            Collections.reverse(floors);
             floorList.sort((f1, f2) -> f2.getFloorNumber() - f1.getFloorNumber());
-            //获取目标楼层集合中第一个参数值
-//            Integer min = floors.get(floors.size() - 1);
-            Collections.max(floors);
+            //获取目标楼层集合中最小参数值
             Integer min = Collections.min(floors);
             for (Floor floor : floorList) {
                 if (floor.getFloorNumber().equals(inFloor)) {

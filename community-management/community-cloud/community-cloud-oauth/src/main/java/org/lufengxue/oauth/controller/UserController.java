@@ -51,7 +51,7 @@ public class UserController {
         String access_token = map.get("access_token");
         //3.将数据存储到cookie中，并返回给页面
         saveCookie(access_token);
-        return new Result(true, StatusCode.OK,"登录成功",access_token);
+        return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",access_token);
 
     }
 

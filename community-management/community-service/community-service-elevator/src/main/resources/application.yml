@@ -58,3 +58,5 @@ knife4j:
     swaggerModelName: 电梯管理服务
     description: 提供电梯增删改查等服务
     version: @submit.version@
+
+# 全局异常

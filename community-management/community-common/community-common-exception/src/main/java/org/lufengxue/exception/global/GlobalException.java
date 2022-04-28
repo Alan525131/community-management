@@ -1,29 +1,23 @@
 package org.lufengxue.exception.global;
 
 
-import com.thoughtworks.xstream.core.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.lufengxue.enums.GeneralExcEnum;
-import org.lufengxue.enums.StatusCode;
+import org.lufengxue.exception.BaseException;
+import org.lufengxue.exception.SysException;
+import org.lufengxue.exception.UserException;
 import org.lufengxue.exception.proper.ExceptionPrintProperties;
 import org.lufengxue.exception.util.IPUtil;
-import org.lufengxue.response.RestVO;
 import org.lufengxue.response.Result;
-import org.lufengxue.response.ThirdException;
-import org.omg.CORBA.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Objects;
+import static org.lufengxue.enums.ResponseEnum.B_SYSTEM_ERR;
 
 /**
  * 目前所有异常的处理方式都一样, 为了以后的扩展性, 这里还是分开处理.
@@ -36,61 +30,18 @@ public class GlobalException {
         log.info("[初始化] {} 初始化完成.", "GlobalException");
     }
 
+
     @Autowired
     private ExceptionPrintProperties properties;
-
-    public static void main(String[] args)  {
-        dafa();
-    }
-
-    public static Object findString(int num) {
-        if (num % 3 == 0) {
-            throw new Text("运行时异常");
-        }
-        return num;
-    }
-
-    public static void dafa() {
-        for (int i = 0; i < 5; i++) {
-
-            try {
-                findString(i);
-            } catch (Exception e) {
-                throw new ThirdException(GeneralExcEnum.A_ACCESS_DENIED,e);
-            }
-
-        }
-    }
-    /**
-     * 参数异常, 返回状态码: 400
-     */
-    @ExceptionHandler({
-            // 非法参数异常
-            IllegalArgumentException.class,
-            // 缺少参数异常
-            MissingServletRequestParameterException.class,
-            // 参数类型不匹配异常
-            MethodArgumentTypeMismatchException.class,
-            // 参数无效异常
-            MethodArgumentNotValidException.class,
-    })
-    //@ResponseStatus(HttpStatus.BAD_REQUEST)
-    public RestVO<String> argumentException(RuntimeException e) {
-        printError(e);
-//        return RestVO.fail(A_ILLEGAL_ARG_ERR);
-        return null;
-    }
 
 
     /**
      * 来源于用户的异常
      */
     @ExceptionHandler({UserException.class})
-    //@ResponseStatus(HttpStatus.BAD_REQUEST)
-    public RestVO<String> userException(BaseException e) {
+    public Result<String> userException(BaseException e) {
         printError(e);
-//        return RestVO.fail(e);
-        return null;
+        return Result.fail(e);
     }
 
 
@@ -98,35 +49,19 @@ public class GlobalException {
     /**
      * 来源于系统的异常
      */
-//    @ExceptionHandler({SysException.class})
-    //@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestVO<String> sysException(BaseException e) {
+    @ExceptionHandler({SysException.class})
+    public Result<String> sysException(BaseException e) {
         printError(e);
-//        return RestVO.fail(e);
-        return null;
+        return Result.fail(e);
     }
-
-    /**
-     * 来源于系统与第三方的异常
-     */
-//    @ExceptionHandler({ThirdException.class})
-    //@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestVO<String> thirdException(BaseException e) {
-        printError(e);
-//        return RestVO.fail(e);
-        return null;
-    }
-
 
     /**
      * 其它异常
      */
-    @ExceptionHandler({RuntimeException.class, Exception.class, Throwable.class})
-    //@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestVO<String> runtimeException(RuntimeException e) {
+    @ExceptionHandler({Throwable.class})
+    public Result<String> runtimeException(Throwable e) {
         printError(e);
-//        return RestVO.fail(B_SYSTEM_ERR);
-        return null;
+        return Result.fail(B_SYSTEM_ERR);
     }
 
 
@@ -138,7 +73,7 @@ public class GlobalException {
         StringBuilder sb = new StringBuilder();
         sb.append("\n全局异常: ");
         if (ex instanceof BaseException) {
-//            sb.append("code: ").append(((BaseException) ex).getCode()).append(" ");
+            sb.append("code: ").append(((BaseException) ex).getCode()).append(" ");
         }
         if (ex != null && StringUtils.isNotBlank(ex.getMessage())) {
             sb.append(ex.getMessage());

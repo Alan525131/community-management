@@ -3,7 +3,6 @@ package org.lufengxue.user.controller;
 
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.lufengxue.enums.StatusCode;
 import org.lufengxue.response.Result;
 import org.lufengxue.pojo.user.dto.UserDto;
 import org.lufengxue.pojo.user.po.UserPo;
@@ -45,9 +44,9 @@ public class UserControler {
     public Result insert(@RequestBody UserPo userPo) {
         Integer userNumber = userService.insert(userPo);
         if (userNumber >= 1) {
-            return new Result(true, StatusCode.OK, "添加数据成功");
+            return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","添加数据成功");
         } else {
-            return new Result(false, StatusCode.ERROR, "添加数据失败");
+            return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","添加数据失败");
 
         }
     }
@@ -59,7 +58,7 @@ public class UserControler {
     @ApiOperation(value="根据用户名 查询用户信息", notes="feign调用")
     public Result<UserDto> findByName(@RequestParam(name = "username") String username){
         UserDto user = userService.findByName(username);
-        return new Result(true, StatusCode.OK,"查询用户数据成功",user);
+        return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",user);
     }
     /**
      * 删除用户
@@ -69,9 +68,9 @@ public class UserControler {
     public Result deleteId(@RequestParam(name = "username") String username){
         Integer number = userService.deleteId(username);
         if(number >= 1){
-            return new Result<>(true,StatusCode.OK,"删除数据成功");
+            return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","删除数据成功");
         }else {
-            return new Result<>(false,StatusCode.ERROR,"删除用户数据失败");
+            return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","删除用户数据失败");
         }
     }
 
@@ -83,7 +82,7 @@ public class UserControler {
     @ApiOperation(value = "查询用户列表",notes = "查询所有用户")
     public Result<List<UserDto>> findAll(){
        List<UserDto> userDtoList = userService.findAll();
-       return  new Result<>(true,StatusCode.OK,"查询用户数据成功",userDtoList);
+       return  new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",userDtoList);
     }
     /**
      * 更新数据
@@ -93,7 +92,7 @@ public class UserControler {
     public Result updateUser(@RequestBody UserPo userPo){
       Integer number = userService.updateUser(userPo);
       if(number >0){
-          return new Result(true,StatusCode.OK,"更新用户数据成功");
+          return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","更新用户数据成功");
       }else {
           throw new RuntimeException("更新用户数据失败");
       }
