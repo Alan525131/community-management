@@ -31,6 +31,7 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+    web-application-type: reactive
 
   redis:
     host: 127.0.0.1

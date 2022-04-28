@@ -48,11 +48,11 @@
             <artifactId>jjwt</artifactId>
         </dependency>
 
-<!--         &lt;!&ndash;swagger依赖&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.lufengxue</groupId>-->
-<!--            <artifactId>community-common-swagger</artifactId>-->
-<!--        </dependency>-->
+         <!--swagger依赖-->
+        <dependency>
+            <groupId>org.lufengxue</groupId>
+            <artifactId>community-common-swagger</artifactId>
+        </dependency>
 
         <!-- 日志配置 -->
         <dependency>
@@ -65,13 +65,6 @@
             <groupId>org.lufengxue</groupId>
             <artifactId>community-common-model</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-        </dependency>
-
-
 
     </dependencies>
 

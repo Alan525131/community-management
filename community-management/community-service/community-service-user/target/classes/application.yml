@@ -50,3 +50,5 @@ hystrix:
           thread:
             timeoutInMilliseconds: 5000 # 5s
           strategy: SEMAPHORE  #feign传递token需要
+
+global.
