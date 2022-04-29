@@ -202,5 +202,6 @@
     <orderEntry type="library" name="Maven: io.springfox:springfox-data-rest:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:2.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:2.0.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-configuration-processor:2.6.2" level="project" />
   </component>
 </module>

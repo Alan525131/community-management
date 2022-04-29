@@ -26,13 +26,13 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.lufengxue</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>community-service-user</artifactId>
             <version>1.0.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.lufengxue</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>community-common-model</artifactId>
         </dependency>
         <!--测试包-->

@@ -50,19 +50,19 @@
 
          <!--swagger依赖-->
         <dependency>
-            <groupId>org.lufengxue</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>community-common-swagger</artifactId>
         </dependency>
 
         <!-- 日志配置 -->
         <dependency>
-            <groupId>org.lufengxue</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>community-common-logger</artifactId>
             <version>1.0.0.0</version>
         </dependency>
 
         <dependency>
-            <groupId>org.lufengxue</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>community-common-model</artifactId>
         </dependency>
 
