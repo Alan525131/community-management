@@ -3,4 +3,4 @@ spring:
     name:  community-cloud-gateway
 
   profiles:
-    active: sit
+    active: dev

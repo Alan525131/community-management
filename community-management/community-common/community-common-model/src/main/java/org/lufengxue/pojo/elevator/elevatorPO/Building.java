@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.util.Set;
 
 /**
@@ -19,11 +20,16 @@ import java.util.Set;
 @ApiModel("大楼")
 public class Building {
 
-    @ApiModelProperty("大楼名")
-    private String floorName;
 
     @ApiModelProperty("楼层：")
     private Set<Floor> floors;
+
+
+    @ApiModelProperty("大楼名")
+    @Column(name = "floorName")
+    private String   buildingName;
+
+
 
     @ApiModelProperty("电梯")
     private Set<Elevator> elevators;

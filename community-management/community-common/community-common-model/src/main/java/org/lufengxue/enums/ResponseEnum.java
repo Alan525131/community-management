@@ -27,6 +27,9 @@ public enum ResponseEnum {
     A_NAME_PWD_ERR  ("401",  HttpStatus.UNAUTHORIZED,"用户名或密码错误"),
     A_BAD_REQUEST   ("400",  HttpStatus.BAD_REQUEST,"错误的请求"),
     B_SYSTEM_ERR    ("500", HttpStatus.INTERNAL_ERROR,"系统内部错误"),
+   BUTN_PARAMETE_ERROR   ("405", HttpStatus.BAD_REQUEST,"按钮参数错误"),
+   PARAMETE_TEYP_ERROR   ("406", HttpStatus.BAD_REQUEST,"参数类型错误"),
+    TARGET_FLOOR_IS_EMPTY ("407", HttpStatus.BAD_REQUEST,"筛选出来的目标楼层为空"),
     ;
 
 

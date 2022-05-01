@@ -3,4 +3,4 @@ spring:
     name:  community-cloud-eureka
 
   profiles:
-    active: sit
+    active: dev

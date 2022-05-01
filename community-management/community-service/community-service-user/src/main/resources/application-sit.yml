@@ -2,7 +2,7 @@ server:
   port: 18089
 spring:
   application:
-    name: user
+    name: community-service-user
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.211.128:3306/elevator_management?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=UTC
@@ -20,7 +20,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:7001/eureka
+      defaultZone: http://192.168.211.129:7001/eureka
   instance:
     prefer-ip-address: true
 feign:

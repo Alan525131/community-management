@@ -5,6 +5,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.lufengxue.elevator.mapper.ElevatorMapper;
 import org.lufengxue.constant.EleConstant;
+import org.lufengxue.enums.ResponseEnum;
+import org.lufengxue.exception.UserException;
 import org.lufengxue.pojo.elevator.elevatorDto.Elevator;
 import org.lufengxue.pojo.elevator.elevatorDto.Floor;
 import org.lufengxue.elevator.service.ElevatorService;
@@ -30,33 +32,33 @@ public class ElevatorServiceImpl implements ElevatorService {
     @Autowired
     private ElevatorMapper elevatorMapper;
     /**
-     * @param floorName 大楼名字
-     *  根据大楼名字 查询所有本大楼的楼层号
+     * @param buildingName 大楼名字
+     *  根据大楼名字 查询所有本大楼的楼层号 todo buildingName
      */
     @Override
-    public List<Floor> findFloor(String floorName) {
-        return elevatorMapper.findFloor(floorName);
+    public List<Floor> findFloor(String buildingName) {
+        return elevatorMapper.findFloor(buildingName);
     }
 
     /**
-     * @param floorName   大楼名称
+     * @param buildingName   大楼名称
      * @param buttons     电梯上下按钮
      * @param floorNumber 当前楼层号
      * @return 根据当前大楼名字, 与用户当前楼层号, 电梯上下按钮来进行调度电梯接用户
      */
     @Override
-    public Elevator callElevator(String floorName, String buttons, Integer floorNumber) {
-        if (StringUtils.isEmpty(floorName)) {
+    public Elevator callElevator(String buildingName, String buttons, Integer floorNumber) {
+        if (StringUtils.isEmpty(buildingName)) {
             throw new RuntimeException("您输入的大楼名称不正确");
         }
         if (!("上".equals(buttons) || "下".equals(buttons))) {
-            throw new RuntimeException("您输入的电梯按钮不正确");
+            throw new UserException(ResponseEnum.BUTN_PARAMETE_ERROR);
         }
         if (floorNumber == null || floorNumber <= 0) {
-            throw new RuntimeException("您输入的楼层号不成在");
+            throw new UserException(ResponseEnum.PARAMETE_TEYP_ERROR);
         }
-        //获取当栋大楼的楼层号,判断楼层号的范围
-        List<Floor> floors = elevatorMapper.findFloor(floorName);
+        //获取当栋大楼的楼层号,判断楼层号的范围 todo buildingName
+        List<Floor> floors = elevatorMapper.findFloor(buildingName);
         //获取对应楼层对象
         Floor floor = getFloorObject(floors, floorNumber);
         //获取楼层状态 1,最低楼  2,中间楼   3最高楼
@@ -69,8 +71,8 @@ public class ElevatorServiceImpl implements ElevatorService {
         } else if (floorStatus == 3 && "上".equals(buttons)) {
             throw new RuntimeException("您输入的楼层按钮不正确");
         }
-        //根据当前大楼名称查询出所有对应的电梯数据
-        List<Elevator> elevatorList = elevatorMapper.findElevator(floorName);
+        //根据当前大楼名称查询出所有对应的电梯数据 todo buildingName
+        List<Elevator> elevatorList = elevatorMapper.findElevator(buildingName);
         //获取距离最近的电梯对象
         Elevator elevator = getElevatorObject(elevatorList, floorNumber, buttons);
         assert elevator != null;
@@ -148,7 +150,7 @@ public class ElevatorServiceImpl implements ElevatorService {
      */
     private Integer getRunElevator(List<Integer> floors, Integer sports, Integer inFloor, List<Floor> floorList) {
         if (CollectionUtils.isEmpty(floors)) {
-            throw new RuntimeException("筛选出来的目标楼层为空");
+            throw new UserException(ResponseEnum.TARGET_FLOOR_IS_EMPTY);
         }
         //零时变量时间值 楼层值
         Double j = 0.0;

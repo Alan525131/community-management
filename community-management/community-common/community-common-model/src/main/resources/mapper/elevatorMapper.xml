@@ -32,7 +32,7 @@
         FROM
 	            floor as f  LEFT JOIN building as b ON b.id = f.building_id
         WHERE
-	            b.floor_name = #{floorName}
+	            b.floor_name = #{buildingName}
     </select>
 
     <!--查询 电梯表中的电梯数据  -->

@@ -25,9 +25,12 @@ public class Result<T> implements Serializable {
 
 
     /**
-     * 默认成功编码: 00000, 成功消息: SUCCEED, 成功http状态: 200
+     * 默认成功编码: 00000, 成功http状态: 200
      */
     protected static final String DEFAULT_SUCCEED_CODE = "00000";
+    /**
+     * 成功消息: SUCCEED,
+     */
     protected static final String DEFAULT_SUCCEED_MSG = "SUCCEED";
 
 
@@ -86,9 +89,13 @@ public class Result<T> implements Serializable {
      * 设置响应状态码
      */
     protected static void setHttpStatus(int status) {
-        HttpServletResponse response = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getResponse();
-        if (response != null) {
-            response.setStatus(status);
+        try {
+            HttpServletResponse response = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getResponse();
+            if (response != null) {
+                response.setStatus(status);
+            }
+        } catch (IllegalStateException e) {
+            return;
         }
     }
 

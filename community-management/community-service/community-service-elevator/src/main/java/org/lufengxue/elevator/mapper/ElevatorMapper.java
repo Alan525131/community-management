@@ -20,10 +20,10 @@ public interface ElevatorMapper {
     /**
      * 根据大楼名查询出对应的所有楼层
      *
-     * @param floorName
+     * @param buildingName
      * @return
      */
-    List<Floor> findFloor(String floorName);
+    List<Floor> findFloor(String buildingName);
 
     /**
      * 根据id 查询对应电梯列表数据

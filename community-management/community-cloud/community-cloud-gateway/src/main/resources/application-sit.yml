@@ -2,7 +2,7 @@ server:
   port: 8001
 spring:
   application:
-    name: gateway
+    name: community-cloud-gateway
   cloud:
     gateway:
       globalcors:
@@ -17,10 +17,10 @@ spring:
               - DELETE
       routes:
         # 用户微服务
-        - id: user_route
-          uri: lb://user #所有的请求都交给user服务处理
+        - id: community-service-user
+          uri: lb://community-service-user #所有的请求都交给user服务处理
           predicates:
-            - Path=/api/user/**
+            - Path=/user/**
           filters:
             - StripPrefix=1  #请求路径加前缀
             - name: RequestRateLimiter # 限流的名字底层默认的，不能更改
@@ -29,12 +29,28 @@ spring:
                 redis-rate-limiter.burstCapacity: 3   # 允许一秒钟最大请求数    令牌桶容量
                 redis-rate-limiter.replenishRate: 2  #希望允许每秒执行多少请求  填充速率
 
+
+          # 电梯服务
+        - id: community-service-elevator
+          uri: lb://community-service-elevator #所有的请求都交给user服务处理
+          predicates:
+            - Path=/elevator/**
+          filters:
+            - StripPrefix=1  #请求路径加前缀
+            - name: RequestRateLimiter # 限流的名字底层默认的，不能更改
+              args:
+                key-resolver: "#{@ipKeyResolver}"     # SPEL表达式 与解析器限流bean当中的key对应
+                redis-rate-limiter.burstCapacity: 3   # 允许一秒钟最大请求数    令牌桶容量
+                redis-rate-limiter.replenishRate: 2  #希望允许每秒执行多少请求  填充速率
+
+
+
   main:
     allow-bean-definition-overriding: true
     web-application-type: reactive
 
   redis:
-    host: 127.0.0.1
+    host: 192.168.211.128
     port: 6379
 #eureka client 配置
 eureka:
@@ -45,7 +61,7 @@ eureka:
     instance-info-replication-interval-seconds: 10
     # 服务地址
     service-url:
-      defaultZone: http://127.0.0.1:7001/eureka
+      defaultZone: http://192.168.211.129:7001/eureka
   instance:
     prefer-ip-address: true
     # 实例ID

@@ -14,9 +14,9 @@ import java.util.Set;
  */
 public interface ElevatorService {
 
-    List<Floor> findFloor(String floorName);
+    List<Floor> findFloor(String buildingName);
 
-    Elevator callElevator(String floorName, String buttons, Integer floorNumber);
+    Elevator callElevator(String buildingName, String buttons, Integer floorNumber);
 
     List<Elevator> runElevator(Set<Integer> floorButtons,Integer id);
 
