@@ -29,6 +29,8 @@ spring:
                 redis-rate-limiter.burstCapacity: 3   # 允许一秒钟最大请求数    令牌桶容量
                 redis-rate-limiter.replenishRate: 2  #希望允许每秒执行多少请求  填充速率
 
+
+
         # 电梯服务
         - id: community-service-elevator
           uri: lb://community-service-elevator #所有的请求都交给user服务处理
