@@ -3,4 +3,4 @@ spring:
     name:  community-service-user
 
   profiles:
-    active: dev
+    active: sit

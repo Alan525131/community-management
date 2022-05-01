@@ -50,3 +50,17 @@ hystrix:
           thread:
             timeoutInMilliseconds: 5000 # 5s
           strategy: SEMAPHORE  #feign传递token需要
+
+knife4j:
+  setting:
+    enable: true
+    swaggerModelName: 用户管理服务
+    description: 提供用户增删改查等服务
+    version: @submit.version@
+
+
+# 全局异常
+global:
+  exception:
+    print:
+      headers:
