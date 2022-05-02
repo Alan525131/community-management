@@ -26,7 +26,7 @@ public class Building {
 
 
     @ApiModelProperty("大楼名")
-    @Column(name = "floorName")
+    @Column(name = "building_name")
     private String   buildingName;
 
 

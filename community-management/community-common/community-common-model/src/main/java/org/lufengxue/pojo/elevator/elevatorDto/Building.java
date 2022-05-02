@@ -23,6 +23,6 @@ import java.util.Set;
 public class Building {
 
     @ApiModelProperty("大楼名")
-    private String BuildingName;
+    private String buildingName;
 
 }

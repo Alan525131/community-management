@@ -35,7 +35,7 @@ public class Result<T> implements Serializable {
 
 
     @ApiModelProperty(required = true, value = "返回状态码 20000 为成功 40001 为失败")
-    private  String code;
+    protected  String code;
 
     @ApiModelProperty(required = true, value = "返回逻辑提示信息")
     protected String message;
@@ -51,13 +51,14 @@ public class Result<T> implements Serializable {
      * @return 返回成功消息
      */
     public static <T> Result<T> success() {
-        return new Result<T>(DEFAULT_SUCCEED_CODE,DEFAULT_SUCCEED_MSG);
+        return new Result<T>(DEFAULT_SUCCEED_CODE,DEFAULT_SUCCEED_MSG,null);
 
     }
 
-    public static <T>  Result<T> success(T data) {
+    public static <T>  Result<T> success( T data) {
         return new Result<T>(DEFAULT_SUCCEED_CODE,DEFAULT_SUCCEED_MSG,data);
     }
+
 
     /**
      *
@@ -72,7 +73,7 @@ public class Result<T> implements Serializable {
 
     public static <T> Result<T> fail(BaseException e) {
         setHttpStatus(e.getStatus());
-        return new Result<>(e.getCode(), e.getMsg());
+        return new Result<T>(e.getCode(), e.getMsg());
     }
 
     /**
@@ -98,5 +99,4 @@ public class Result<T> implements Serializable {
             return;
         }
     }
-
 }
