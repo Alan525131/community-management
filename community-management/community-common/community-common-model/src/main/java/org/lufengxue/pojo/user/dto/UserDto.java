@@ -25,7 +25,7 @@ public class UserDto implements Serializable {
     private Long id;
 
     @ApiModelProperty("用户名")
-    private String name;
+    private String username;
 
     @ApiModelProperty("用户密码")
     private String password;

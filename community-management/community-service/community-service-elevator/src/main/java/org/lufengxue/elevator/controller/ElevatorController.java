@@ -1,9 +1,6 @@
 package org.lufengxue.elevator.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.lufengxue.pojo.elevator.elevatorDto.Elevator;
 import org.lufengxue.pojo.elevator.elevatorDto.Floor;
 import org.lufengxue.elevator.service.ElevatorService;
@@ -56,11 +53,8 @@ public class ElevatorController {
 
     @PostMapping("/runElevator")
     @ApiOperation("根据用户输入的目标楼层集合运行电梯接送用户到目的地")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "floorButtons", value = "目标楼层集合", dataType = "Set<Integer>", paramType = "query", required = true),
-            @ApiImplicitParam(name = "id", value = "运行的电梯id", dataType = "Integer", paramType = "query", required = true)
-    })
-    public Result<List<Elevator>> runElevator(Set<Integer> floorButtons, Integer id) {
+    public Result<List<Elevator>> runElevator( @RequestParam(value = "floorButtons") @ApiParam(value = "目标楼层列表",required = true) Set<Integer> floorButtons,
+                                               @RequestParam(value = "id") @ApiParam(value = "运行的电梯id",required = true) Integer id)  {
         List<Elevator> elevatorList = elevatorService.runElevator(floorButtons, id);
         return new Result<>("DEFAULT_SUCCEED_CODE", "DEFAULT_SUCCEED_MSG", elevatorList);
     }

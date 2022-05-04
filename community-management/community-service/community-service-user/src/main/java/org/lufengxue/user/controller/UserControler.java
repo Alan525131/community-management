@@ -4,6 +4,7 @@ package org.lufengxue.user.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.lufengxue.enums.ResponseEnum;
 import org.lufengxue.response.Result;
@@ -28,7 +29,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@Api("用户管理")
+@Api(tags = "用户管理")
 @RequestMapping("/user")
 public class UserControler {
 
@@ -36,82 +37,84 @@ public class UserControler {
     @Autowired
     private UserService userService;
 
-
-
     /**
-     *  新增用户
+     * 新增用户
+     *
      * @param
      * @return
      */
     @PostMapping("/insert")
-    @ApiOperation(value="新增用户", notes="添加数据")
-    @ApiImplicitParam(name = "userPo",value = "用户数据",dataType = "UserPo",required = true)
-    public Result insert(@RequestBody UserPo userPo) {
+    @ApiOperation(value = "新增用户", notes = "新增一个用户的数据")
+    public Result insert(UserPo userPo) {
         Integer userNumber = userService.insert(userPo);
         if (userNumber >= 1) {
-            return   Result.success(ResponseEnum.MISSION_OK);
+            return Result.success(ResponseEnum.MISSION_OK);
         } else {
-            return   Result.fail(ResponseEnum.NOTFOUNDERROR);
+            return Result.fail(ResponseEnum.NOTFOUNDERROR);
 
         }
     }
+
     /**
      * feign调用  根据用户名 查询用户信息
      */
     @GetMapping("/load")
-    @ApiOperation(value="根据用户名 查询用户信息", notes="feign调用")
-    @ApiImplicitParam(name = "username", value = "用户名", dataType = "string",required = true)
-    public Result<UserDto> findByName(@RequestParam(name = "username") String username){
+    @ApiOperation(value = "根据用户名 查询用户信息", notes = "feign调用")
+    @ApiImplicitParam(name = "username", value = "用户名", dataType = "string", required = true)
+    public Result<UserDto> findByName(String username) {
         UserDto user = userService.findByName(username);
-        return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",user);
+        return new Result("DEFAULT_SUCCEED_CODE", "DEFAULT_SUCCEED_MSG", user);
     }
+
     /**
      * 删除用户
      */
     @PostMapping("/delete")
-    @ApiOperation(value = "删除用户",notes = "根据用户id删除用户数据")
-    @ApiImplicitParam(name = "username",value = "用户名",dataType = "string",required = true)
-    public Result deleteId(@RequestParam(name = "username") String username){
+    @ApiOperation(value = "删除用户", notes = "根据用户id删除用户数据")
+    @ApiImplicitParam(name = "username", value = "用户名", dataType = "string", required = true)
+    public Result deleteId(@RequestParam(name = "username") String username) {
         Integer number = userService.deleteId(username);
-        if(number >= 1){
-            return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","删除数据成功");
-        }else {
-            return new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","删除用户数据失败");
+        if (number >= 1) {
+            return new Result<>("DEFAULT_SUCCEED_CODE", "DEFAULT_SUCCEED_MSG", "删除数据成功");
+        } else {
+            return new Result<>("DEFAULT_SUCCEED_CODE", "DEFAULT_SUCCEED_MSG", "删除用户数据失败");
         }
     }
 
     /**
      * 查询用户列表
+     *
      * @return
      */
     @GetMapping("/findAll")
-    @ApiOperation(value = "查询用户列表",notes = "查询所有用户")
-    public Result<List<UserDto>> findAll(){
-       List<UserDto> userDtoList = userService.findAll();
-       return  new Result<>("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG",userDtoList);
+    @ApiOperation(value = "查询用户列表", notes = "查询所有用户")
+    public Result<List<UserDto>> findAll() {
+        List<UserDto> userDtoList = userService.findAll();
+        return new Result<>("DEFAULT_SUCCEED_CODE", "DEFAULT_SUCCEED_MSG", userDtoList);
     }
+
     /**
      * 更新数据
      */
     @PostMapping("/updateUser")
-    @ApiOperation(value = "更新用户列表",notes = "根据用户id更新用户数据")
-    public Result updateUser(@RequestBody UserPo userPo){
-      Integer number = userService.updateUser(userPo);
-      if(number >0){
-          return new Result("DEFAULT_SUCCEED_CODE","DEFAULT_SUCCEED_MSG","更新用户数据成功");
-      }else {
-          throw new RuntimeException("更新用户数据失败");
-      }
+    @ApiOperation(value = "更新用户列表", notes = "根据用户id更新用户数据")
+    public Result updateUser(UserPo userPo) {
+        Integer number = userService.updateUser(userPo);
+        if (number > 0) {
+            return new Result("DEFAULT_SUCCEED_CODE", "DEFAULT_SUCCEED_MSG", "更新用户数据成功");
+        } else {
+            throw new RuntimeException("更新用户数据失败");
+        }
     }
 
 
     public static void main(String[] args) throws Exception {
         //bcrypt
-        String encode = new BCryptPasswordEncoder().encode("changgou");
+        String encode = new BCryptPasswordEncoder().encode("123456");
         System.out.println(encode);
 
         //
         byte[] bytes = Base64.getDecoder().decode("eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9");
-        System.out.println(new String(bytes,"utf-8"));
+        System.out.println(new String(bytes, "utf-8"));
     }
 }

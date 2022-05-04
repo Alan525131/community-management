@@ -14,13 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 
 
-/**
- * 接收消息封装对象
- */
-@ApiModel
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(description= "返回响应数据")
 public class Result<T> implements Serializable {
 
 
@@ -34,10 +32,10 @@ public class Result<T> implements Serializable {
     protected static final String DEFAULT_SUCCEED_MSG = "SUCCEED";
 
 
-    @ApiModelProperty(required = true, value = "返回状态码 20000 为成功 40001 为失败")
+    @ApiModelProperty(required = true, value = "返回状态码 DEFAULT_SUCCEED_CODE 为成功 ")
     protected  String code;
 
-    @ApiModelProperty(required = true, value = "返回逻辑提示信息")
+    @ApiModelProperty(required = true, value = "返回成功提示信息 DEFAULT_SUCCEED_MSG")
     protected String message;
 
     @ApiModelProperty(required = false, value = "返回逻辑数据")

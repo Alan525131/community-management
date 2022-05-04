@@ -261,7 +261,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户所在楼层{},往下运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},往下运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -271,7 +271,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户所在楼层{},调转方向往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},调转方向往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -290,7 +290,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户所在楼层{},往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -300,7 +300,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户所在楼层{},电梯调转方向往下运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向下,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},电梯调转方向往下运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -344,7 +344,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户所在楼层{},往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -357,7 +357,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户所在楼层{},调转方向往下运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},调转方向往下运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -378,7 +378,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户所在楼层{},调转方向往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},调转方向往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;
@@ -389,7 +389,7 @@ public class ElevatorServiceImpl implements ElevatorService {
                             j++;
                             Double time = timeCount * j;
                             fl = i;
-                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户所在楼层{},调转方向往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
+                            log.info("用户目标方向: 向上,电梯运行方向{},电梯所在楼层{},用户原始所在楼层{},调转方向往上运行至{}层,耗时{}秒", sports, inFloor, floorNumber, i, time);
                         }
                         log.info("电梯到达用户楼层{},开门", floorNumber);
                         break;

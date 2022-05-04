@@ -3,4 +3,4 @@ spring:
     name:  @artifactId@
 
   profiles:
-    active: sit
+    active: dev

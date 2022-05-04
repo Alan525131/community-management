@@ -20,7 +20,7 @@ spring:
         - id: community-service-user
           uri: lb://community-service-user #所有的请求都交给user服务处理
           predicates:
-            - Path=/api/**
+            - Path=/user/**
           filters:
             - StripPrefix=1  #请求路径加前缀
             - name: RequestRateLimiter # 限流的名字底层默认的，不能更改
@@ -30,8 +30,7 @@ spring:
                 redis-rate-limiter.replenishRate: 2  #希望允许每秒执行多少请求  填充速率
 
 
-
-        # 电梯服务
+          # 电梯服务
         - id: community-service-elevator
           uri: lb://community-service-elevator #所有的请求都交给user服务处理
           predicates:
